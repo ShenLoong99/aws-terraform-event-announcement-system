@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Announcements</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="card">
+        <h2>Subscribe to Alerts</h2>
+        <input type="email" id="subEmail" placeholder="Enter your email">
+        <button onclick="handleSubscribe()">Subscribe</button>
+    </div>
+
+    <div class="card">
+        <h2>Create New Event</h2>
+        <input type="text" id="eventTitle" placeholder="Event Title">
+        <input type="date" id="eventDate">
+        <button onclick="handleCreateEvent()">Create & Notify</button>
+    </div>
+
+    <script>
+        // CONFIGURATION: Set to true if testing with a local mock server
+        const API_BASE = "${api_url}";
+
+        async function handleSubscribe() {
+            const email = document.getElementById('subEmail').value;
+            const res = await fetch(`$${API_BASE}/subscribe`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email })
+            });
+            const data = await res.json();
+            alert(data.message);
+        }
+
+        async function handleCreateEvent() {
+            const title = document.getElementById('eventTitle').value;
+            const date = document.getElementById('eventDate').value;
+            const res = await fetch(`$${API_BASE}/create-event`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ title, date })
+            });
+            const data = await res.json();
+            alert(data.message);
+        }
+    </script>
+</body>
+</html>
