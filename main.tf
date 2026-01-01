@@ -1,5 +1,13 @@
 provider "aws" {
   region = var.aws_region
+
+  default_tags {
+    tags = {
+      Environment = "Production"
+      Project     = "EventAnnouncements"
+      ManagedBy   = "Terraform"
+    }
+  }
 }
 
 # Data source to package the Subscribe Lambda
@@ -20,6 +28,18 @@ data "archive_file" "event_zip" {
 resource "aws_s3_bucket" "website" {
   # Generates a name like: event-announcement-8a2f1b3c
   bucket = "event-announcement-${random_id.bucket_suffix.hex}"
+
+  tags = {
+    Name = "Event-Frontend-Storage"
+  }
+}
+
+# Protects your events.json from accidental deletion/corruption
+resource "aws_s3_bucket_versioning" "website_versioning" {
+  bucket = aws_s3_bucket.website.id
+  versioning_configuration {
+    status = "Enabled"
+  }
 }
 
 # Generate a random suffix for the bucket name
@@ -37,10 +57,10 @@ resource "aws_s3_bucket_public_access_block" "public" {
   bucket = aws_s3_bucket.website.id
 
   # These must be FALSE to allow the public bucket policy
-  block_public_acls       = false
-  block_public_policy     = false
-  ignore_public_acls      = false
-  restrict_public_buckets = false
+  block_public_acls       = true  # Best Practice: Use Policies, not ACLs
+  block_public_policy     = false # Must be false to allow your website policy
+  ignore_public_acls      = true
+  restrict_public_buckets = false # Must be false for public website access
 }
 
 // S3 Bucket Policy
@@ -142,6 +162,10 @@ resource "aws_lambda_function" "subscribe" {
   timeout     = 10  # Kill function after 10 seconds
 
   environment { variables = { SNS_TOPIC_ARN = aws_sns_topic.event_updates.arn } }
+
+  tags = {
+    Function = "Subscriber"
+  }
 }
 
 resource "aws_lambda_function" "create_event" {
@@ -161,6 +185,10 @@ resource "aws_lambda_function" "create_event" {
       S3_BUCKET     = aws_s3_bucket.website.id
       SNS_TOPIC_ARN = aws_sns_topic.event_updates.arn
     }
+  }
+
+  tags = {
+    Function = "Event-Creator"
   }
 }
 
@@ -379,6 +407,11 @@ resource "aws_api_gateway_stage" "prod" {
   deployment_id = aws_api_gateway_deployment.event_deploy.id
   rest_api_id   = aws_api_gateway_rest_api.event_api.id
   stage_name    = "prod"
+
+  # Prevents Terraform from destroying the stage before the new one is ready
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 // Give Lambdas necessary permissions to interact with SNS & S3
