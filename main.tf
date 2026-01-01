@@ -84,20 +84,25 @@ resource "aws_s3_bucket_policy" "allow_public" {
 
 # Upload index.html
 resource "aws_s3_object" "index" {
-  bucket = aws_s3_bucket.website.id
-  key    = "index.html"
+  bucket       = aws_s3_bucket.website.id
+  key          = "index.html"
+  content_type = "text/html"
+
+  # Use content instead of source for templates
+  content = templatefile("${path.module}/frontend/index.html.tftpl", {
+    api_url = "${aws_api_gateway_stage.prod.invoke_url}"
+  })
+
+  # Use md5() on the content string since the physical .html file doesn't exist yet
+  etag = md5(templatefile("${path.module}/frontend/index.html.tftpl", {
+    api_url = "${aws_api_gateway_stage.prod.invoke_url}"
+  }))
 
   # Wait for the bucket and its website/policy config to be READY
   depends_on = [
     aws_s3_bucket_website_configuration.hosting,
     aws_s3_bucket_policy.allow_public
   ]
-
-  # This dynamically pulls the output into your HTML
-  content = templatefile("${path.module}/frontend/index.html.tftpl", {
-    api_url = "${aws_api_gateway_stage.prod.invoke_url}"
-  })
-  content_type = "text/html"
 }
 
 # Upload style.css
@@ -106,6 +111,9 @@ resource "aws_s3_object" "style" {
   key          = "style.css"
   source       = "${path.module}/frontend/style.css"
   content_type = "text/css"
+
+  # Added: Ensures Terraform and S3 track the file hash correctly
+  etag = filemd5("${path.module}/frontend/style.css")
 
   # Wait for the bucket and its website/policy config to be READY
   depends_on = [
@@ -120,6 +128,9 @@ resource "aws_s3_object" "data" {
   key          = "events.json"
   source       = "${path.module}/frontend/events.json"
   content_type = "application/json"
+
+  # Added: Ensures Terraform and S3 track the file hash correctly
+  etag = filemd5("${path.module}/frontend/events.json")
 
   # Wait for the bucket and its website/policy config to be READY
   depends_on = [
