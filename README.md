@@ -8,14 +8,11 @@
 [![LinkedIn][linkedin-shield]][linkedin-url]
 
 <div>
-   <h1>✅ Full-Stack BucketList Tracker</h1>
-   <p align="center"> <img src="assets/aws-amplify.jpg" alt="aws-amplify" width="800"/><br>
-      <strong>A Serverless Adventure Logging Application</strong> 
+   <h1>📢 Serverless Event Notifier</h1>
+   <p align="center"> <img src="assets/aws-sns-logo.png" alt="aws-sns-logo" width="800"/><br>
+      <strong>Automated Multi-Channel Event Distribution System</strong> 
    </p>
-   <p> 
-    The <strong>BucketList Tracker</strong> is a full-stack, serverless application that allows users to authenticate, manage their personal travel goals, and upload "inspiration photos" for each adventure. Built with React and powered by an automated AWS backend provisioned via Terraform. <br /> 
-    <a href="#about-the-project"><strong>Explore the docs »</strong></a>
-  </p>
+   <p> The <strong>Serverless Event Notifier</strong> is a full-stack solution enabling organizations to manage event listings and instantly broadcast updates to subscribers. Built with a decoupled microservices architecture, it leverages AWS Lambda, SNS, and S3 to provide a highly scalable, zero-maintenance notification pipeline. <br /> <a href="#about-the-project"><strong>Explore the docs »</strong></a> </p>
 </div>
 <details>
    <summary>Table of Contents</summary>
@@ -28,117 +25,79 @@
       <li><a href="#getting-started">Getting Started</a></li>
       <li><a href="#usage">Usage & Testing</a></li>
       <li><a href="#roadmap">Roadmap</a></li>
-      <li><a href="#challenges-faced">Challenges</a></li>
+      <li><a href="#challenges">Challenges</a></li>
       <li><a href="#cost-optimization">Cost Optimization</a></li>
    </ol>
 </details>
-
 <h2 id="about-the-project">About The Project</h2>
-<p> This project demonstrates a robust <strong>Infrastructure as Code (IaC)</strong> pipeline for a modern web application. It solves the common challenge of 1-click deployments by using Terraform Cloud to manage AWS resources and a custom <strong>Webhook Trigger</strong> system to ensure the frontend build always has the latest infrastructure IDs (Cognito Pools, S3 Buckets, AppSync URLs) without manual configuration. </p>
+<p> This project focuses on the <strong>Decoupled Pub/Sub Pattern</strong>. It demonstrates how to handle asynchronous workflows—where a user creates an event in a web dashboard, and the system automatically updates a data store (S3) while simultaneously triggering a notification broadcast (SNS). The entire lifecycle, from the frontend hosting to the backend API Gateway triggers, is provisioned via <strong>Terraform</strong> for 100% reproducible infrastructure. </p>
 <div align="right"><a href="#readme-top">↑ Back to Top</a></div>
-
 <h2 id="built-with">Built With</h2>
 <p> 
-  <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original.svg" alt="react" width="45" height="45" style="margin: 10px;"/> 
-  <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/terraform/terraform-original.svg" alt="terraform" width="45" height="45" style="margin: 10px;"/> 
-  <img src="https://raw.githubusercontent.com/weibeld/aws-icons-svg/main/q1-2022/Architecture-Service-Icons_01312022/Arch_Security-Identity-Compliance/48/Arch_Amazon-Cognito_48.svg" alt="cognito" width="45" height="45" style="margin: 10px;"/> 
-  <img src="https://raw.githubusercontent.com/weibeld/aws-icons-svg/main/q1-2022/Architecture-Service-Icons_01312022/Arch_Front-End-Web-Mobile/48/Arch_AWS-Amplify_48.svg" alt="amplify" width="45" height="45" style="margin: 10px;"/> 
-  <img src="https://raw.githubusercontent.com/weibeld/aws-icons-svg/main/q1-2022/Architecture-Service-Icons_01312022/Arch_App-Integration/Arch_48/Arch_AWS-AppSync_48.svg" alt="appsync" width="45" height="45" style="margin: 10px;"/> 
-  <img src="https://raw.githubusercontent.com/weibeld/aws-icons-svg/main/q1-2022/Resource-Icons_01312022/Res_Storage/Res_48_Light/Res_Amazon-Simple-Storage-Service_S3-Standard_48_Light.svg" alt="s3" width="45" height="45" style="margin: 10px;"/> 
-  <img src="https://raw.githubusercontent.com/weibeld/aws-icons-svg/main/q1-2022/Architecture-Service-Icons_01312022/Arch_Database/48/Arch_Amazon-DynamoDB_48.svg" alt="dynamodb" width="45" height="45" style="margin: 10px;"/> </p>
+   <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg" alt="javascript" width="45" height="45" style="margin: 10px;"/> 
+   <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/terraform/terraform-original.svg" alt="terraform" width="45" height="45" style="margin: 10px;"/> 
+   <img src="https://raw.githubusercontent.com/weibeld/aws-icons-svg/main/q1-2022/Architecture-Service-Icons_01312022/Arch_App-Integration/Arch_48/Arch_Amazon-Simple-Notification-Service_48.svg" alt="sns" width="45" height="45" style="margin: 10px;"/>
+   <img src="https://raw.githubusercontent.com/weibeld/aws-icons-svg/main/q1-2022/Architecture-Service-Icons_01312022/Arch_Compute/48/Arch_AWS-Lambda_48.svg" alt="lambda" width="45" height="45" style="margin: 10px;"/> 
+   <img src="https://raw.githubusercontent.com/weibeld/aws-icons-svg/main/q1-2022/Resource-Icons_01312022/Res_Storage/Res_48_Light/Res_Amazon-Simple-Storage-Service_S3-Standard_48_Light.svg" alt="s3" width="45" height="45" style="margin: 10px;"/> 
+   <img src="https://raw.githubusercontent.com/weibeld/aws-icons-svg/main/q1-2022/Architecture-Service-Icons_01312022/Arch_App-Integration/Arch_48/Arch_ Amazon-API-Gateway_48.svg" alt="api-gateway" width="45" height="45" style="margin: 10px;"/> 
 </p>
 <ul>
-   <li><strong>React (Vite):</strong> Fast, modern UI with Tailwind CSS for styling.</li>
-   <li><strong>Terraform:</strong> Full IaC management of Cognito, S3, AppSync, and Amplify Hosting.</li>
-   <li><strong>AWS Cognito:</strong> Multi-layer auth using User Pools (Identity) and Identity Pools (IAM Credentials).</li>
-   <li><strong>AWS AppSync (GraphQL):</strong> Managed API for real-time bucket list data storage.</li>
-   <li><strong>Amazon S3:</strong> Secure storage for bucket list adventure images.</li>
-   <li><strong>Amazon DynamoDB:</strong> NoSQL database used to store bucket list items and user-specific metadata.</li>
+   <li><strong>Vanilla JS + HTML5:</strong> Clean, lightweight frontend using Fetch API for asynchronous backend calls.</li>
+   <li><strong>Terraform:</strong> Comprehensive IaC for API Gateway, Lambda, SNS, and S3 Static Web Hosting.</li>
+   <li><strong>AWS SNS:</strong> Managed Pub/Sub service for handling email subscriptions and message broadcasting.</li>
+   <li><strong>AWS Lambda (Node.js):</strong> Serverless functions for processing subscriptions and updating event metadata.</li>
+   <li><strong>Amazon S3:</strong> Dual-purpose storage used for static website hosting and persistent JSON data storage.</li>
+   <li><strong>API Gateway:</strong> RESTful entry point with integrated CORS handling and CloudWatch logging.</li>
 </ul>
 <div align="right"><a href="#readme-top">↑ Back to Top</a></div>
-
 <h2 id="use-cases">Use Cases</h2>
 <ul>
-   <li><strong>Travel Planning:</strong> Log future travel destinations with visual references.</li>
-   <li><strong>Serverless Showcase:</strong> A template for production-grade React + AWS + Terraform deployments.</li>
-   <li><strong>Secure Media Handling:</strong> Demonstrates Cognito Identity Pool "AssumeRole" logic for client-side S3 uploads.</li>
+   <li><strong>Community Announcements:</strong> Allow members to sign up for email alerts for local town hall or club meetings.</li>
+   <li><strong>Internal IT Alerts:</strong> A dashboard for admins to post system maintenance windows and notify all stakeholders instantly.</li>
+   <li><strong>Marketing Campaigns:</strong> Quick-deploy landing pages to capture email leads and send instant promotion details.</li>
 </ul>
 <div align="right"><a href="#readme-top">↑ Back to Top</a></div>
-
 <h2 id="architecture">Architecture</h2>
-<img src="assets/bucket-list-tracker.jpg" alt="archicture-diagram" width="800">
-<p> The architecture is built on a <strong>Deterministic Deployment</strong> model: </p>
+<p> The system utilizes a <strong>Serverless Event-Driven Architecture</strong>: </p>
 <ol>
-   <li><strong>State Management:</strong> Terraform Cloud manages the AWS backend.</li>
-   <li><strong>The Handshake:</strong> Cognito Identity Pools are linked to IAM Roles via <code>roles_attachment</code> to provide scoped credentials for S3.</li>
-   <li><strong>CI/CD Bridge:</strong> Amplify "Auto-build" is disabled. Terraform triggers a deployment via an <strong>Amplify Webhook</strong> only after successfully updating Environment Variables.</li>
-   <li><strong>Storage:</strong> S3 Bucket Policies and CORS allow authenticated browser uploads via AWS Amplify SDK.</li>
+   <li><strong>Frontend Layer:</strong> Static HTML/JS hosted on S3 sends POST requests to API Gateway.</li>
+   <li>
+      <strong>Logic Layer:</strong> API Gateway triggers Lambda functions for two specific actions: 
+      <ul>
+         <li><code>Subscriber Lambda</code>: Registers email addresses to an SNS Topic.</li>
+         <li><code>CreateEvent Lambda</code>: Updates <code>events.json</code> in S3 and publishes a message to the SNS Topic.</li>
+      </ul>
+   </li>
+   <li><strong>Notification Layer:</strong> SNS fan-outs the message to all "Confirmed" email subscribers.</li>
+   <li><strong>Infrastructure Layer:</strong> Terraform manages the deployment, including API Gateway method responses (CORS) and IAM roles.</li>
 </ol>
 <div align="right"><a href="#readme-top">↑ Back to Top</a></div>
-
 <h2 id="file-structure">File Structure</h2>
-<pre>
-AWS-TERRAFORM-BUCKETLIST/
-├── .terraform/                     # Local Terraform environment data
-├── assets/                         # Documentation images/media for README
-├── frontend/                       # React + Vite application source code
-│   ├── src/
-│   │   ├── App.jsx                 # Main Logic + Amplify Configuration
-│   │   └── main.jsx                # Entry point
-│   ├── public/                     # Static assets (logo, etc.)
-│   ├── .env                        # Local development variables
-│   ├── package.json                # React Dependencies (aws-amplify, lucide-react)
-│   └── vite.config.js              # Vite configuration
-├── modules/                        # Infrastructure as Code modules
-│   ├── api/                        # AppSync GraphQL API configuration
-│   │   ├── main.tf
-│   │   ├── outputs.tf
-│   │   └── variables.tf
-│   ├── auth/                       # Cognito User Pool & Identity Pool
-│   │   ├── main.tf                 # Identity Pool & Role Handshake logic
-│   │   ├── outputs.tf
-│   │    variables.tf
-│   ├── database/                   # DynamoDB or other data storage
-│   │   ├── main.tf                 
-│   │   └── outputs.tf
-│   ├── hosting/                    # Amplify App, Branch, & Webhook Trigger
-│   │   ├── main.tf                 # Webhook & build trigger logic
-│   │   ├── outputs.tf
-│   │   └── variables.tf
-│   └── storage/                    # S3 Bucket for image uploads
-│       ├── main.tf                 # Bucket policy & CORS configuration
-│       ├── outputs.tf
-│       └── variables.tf
-├── .gitignore                      # Excludes secrets and temporary files
-├── .terraform.lock.hcl             # Terraform provider lock file
-├── amplify.yml                     # Amplify build specification
-├── main.tf                         # Root module (Instantiates all modules)
-├── outputs.tf                      # Root level outputs (e.g., App URL)
-├── README.md                       # Project documentation
-├── schema.graphql                  # AppSync GraphQL schema definition
-├── terraform.tf                    # Terraform & Provider configuration
-├── terraform.tfstate               # Local state file (if not using Cloud)
-├── terraform.tfstate.backup        # State backup file
-└── variables.tf                    # Root level input variables
+<pre>EVENT-NOTIFIER-SYSTEM/
+├── lambda/                         # Serverless Business Logic
+│   ├── subscriber.js               # Handles SNS email subscriptions
+│   ├── create_event.js             # Updates S3 and triggers SNS broadcast
+│   ├── lambda_subscriber.zip       # Generated by Terraform (archive_file)
+│   └── lambda_create.zip           # Generated by Terraform (archive_file)
+├── frontend/                       # Static Web Assets
+│   ├── index.html.tftpl            # Dynamic template for API URL injection
+│   ├── style.css                   # UI styling (includes padding fixes)
+│   └── events.json                 # Data store for the event list
+├── .terraform/                     # Terraform local working directory
+├── .terraform.lock.hcl             # Provider version lock file
+├── main.tf                         # Primary Infrastructure configuration
+├── variables.tf                    # Region and naming variables
+├── outputs.tf                      # S3 URL and API Gateway endpoint outputs
+└── terraform.tfstate               # Local state file tracking resources
 </pre>
 <div align="right"><a href="#readme-top">↑ Back to Top</a></div>
-
 <h2 id="getting-started">Getting Started</h2>
 <h3>Prerequisites</h3>
 <ul>
-   <li><strong>AWS Account:</strong> IAM credentials with Administrator access.</li>
-   <li><strong>Terraform Cloud Account:</strong> A free account with a workspace configured for "API-driven" or "Version Control" workflow.</li>
-   <li><strong>GitHub Personal Access Token (PAT):</strong> Required for Terraform to link the AWS Amplify App to your source code.</li>
+   <li><strong>AWS CLI:</strong> Configured with appropriate IAM permissions.</li>
+   <li><strong>Terraform CLI / Terraform Cloud(optional)</strong> for IaC deployment.</li>
    <li><strong>Set your AWS Region:</strong> Set to whatever <code>aws_region</code> you want in <code>variables.tf</code>.</li>
 </ul>
-<h3>GitHub Token Setup</h3>
-<p>To allow Terraform to provision the Amplify project, you must create a token that grants AWS access to your repository:</p>
-<ol>
-   <li>Go to <strong>GitHub Settings > Developer Settings > Personal Access Tokens (Tokens classic)</strong>.</li>
-   <li>Generate a new token with <code>repo</code> and <code>admin:repo_hook</code> scopes</li>
-   <li><strong>Important:</strong> Copy this token immediately. You will provide this to Terraform Cloud as a variable named <code>github_token</code>.</li>
-</ol>
-
 <h3>Terraform State Management</h3>
 <p>Select one:</p>
 <ol>
@@ -151,9 +110,6 @@ AWS-TERRAFORM-BUCKETLIST/
 <ol>
    <li>Create a new <strong>Workspace</strong> in Terraform Cloud.</li>
    <li>In the Variables tab, add the following <strong>Terraform Variables:</strong>
-   <ul>
-    <li><strong>github_token</strong>: (The PAT created in Step 1, marked as Sensitive).</li>
-   </ul>
    </li>
    <li>
     Add the following <strong>Environment Variables</strong> (AWS Credentials):
@@ -171,9 +127,9 @@ AWS-TERRAFORM-BUCKETLIST/
       Comment the <code>backend</code> block in <code>terraform.tf</code>:
       <pre># backend "remote" {
 #   hostname     = "app.terraform.io"
-#   organization = "my-terraform-aws-projects-2025"
+#   organization = "&lt;your-terraform-organization-name&gt;"
 #   workspaces {
-#     name = "bucket-list-tracker"
+#     name = "&lt;your-terraform-workspace-name&gt;"
 #   }
 # }</pre>
    </li>
@@ -182,59 +138,61 @@ AWS-TERRAFORM-BUCKETLIST/
     <pre>git bash command:
 export AWS_ACCESS_KEY_ID=&lt;your-aws-access-key-id&gt;
 export AWS_SECRET_ACCESS_KEY=&lt;your-aws-secret-access-key&gt;
-export TF_VAR_github_token=&lt;your-github-token&gt;</pre>
-   </li>
 </ol>
-
 <h3>Installation & Deployment</h3>
 <ol>
-   <li>Clone the repository.</li>
-   <li><strong>Terraform Cloud</strong> → <strong>Initialize & Apply:</strong> Push your code to GitHub. Terraform Cloud will automatically detect the change, run a <code>plan</code>, and wait for your approval.</li>
-   <li><strong>Terraform CLI</strong> → <strong>Initialize & Apply:</strong> Run <code>terraform init</code> → <code>terraform plan</code> → <code>terraform apply</code>, and wait for your approval.</li>
    <li>
-      <strong>The Webhook Handshake:</strong> Once you approve the plan, Terraform will create the backend. It will then automatically trigger the <strong>AWS Amplify Webhook</strong> to start the frontend build.<br>
-      <img src="assets/deployment-log.png" alt="deployment-log" width="400" />
-   </li>
+        <strong>Clone the Repository</strong>
+    </li>
+    <li>
+        <strong>Provision Infrastructure:</strong>
+        <ul>
+          <li>
+            <strong>Terraform Cloud</strong> → <strong>Initialize & Apply:</strong> Push your code to GitHub. Terraform Cloud will automatically detect the change, run a <code>plan</code>, and wait for your approval.
+          </li>
+          <li>
+            <strong>Terraform CLI</strong> → <strong>Initialize & Apply:</strong> Run <code>terraform init</code> → <code>terraform plan</code> → <code>terraform apply</code>, and wait for your approval.
+          </li>
+        </ul>
+    </li>
    <li>
-      <strong>Pro-Tip:</strong>  Local Development To test changes without deploying to production, create a <code>.env.local</code> file in the <code>frontend/</code> directory. Populate it with the outputs from your Terraform apply (User Pool IDs, S3 Bucket name, etc.) to link your local dev server to your live AWS resources
+      <strong>Note:</strong> Upon the first deployment, S3 may take a moment for DNS propagation. If the initial upload fails, wait 30 seconds and re-run <code>terraform apply</code>.<br>
+      <img src="assets/event-announcement-system-page.png" alt="event-announcement-system-page" width="800"/>
    </li>
 </ol>
 <div align="right"><a href="#readme-top">↑ Back to Top</a></div>
-
 <h2 id="usage">Usage & Testing</h2>
 <ol>
-  <li>
-    <strong>View</strong> the website.<br>
-    <img src="assets/login-page.png" alt="login-page" width="400">
+   <li>
+      <strong>Subscription:</strong> Enter your email in the "Subscribe" box. Check your inbox for an AWS Confirmation email and click the <strong>Confirm</strong> link.<br>
+      <img src="assets/subscribed-msg.png" alt="subscribed-msg" width="400"/>
    </li>
    <li>
-    <strong>Authentication:</strong> Sign up using the Cognito Authenticator UI.<br>
-    <img src="assets/register-page.png" alt="register-page" width="300">
-    <img src="assets/email-verification-page.png" alt="email-verification-page" width="300">
+      <strong>Event Creation:</strong> Enter an event title and date, then click "Create & Notify."<br>
+      <img src="assets/event-created.png" alt="event-created" width="400"/>
    </li>
    <li>
-    <strong>Login</strong> to the website successfully.<br>
-    <img src="assets/buckiet-list-page.png" alt="buckiet-list-page" width="400">
-   </li>
-   <li><strong>Adding Items:</strong>Enter a title and select an image file.</li>
-   <li><strong>Delete Items:</strong>Click delete icon to delete item from bucket list.</li>
-   <li>
-    <strong>S3 Check:</strong> Verify uploaded images appear in your private S3 bucket in AWS Console under the <code>public/</code> prefix.<br>
-    <img src="assets/s3-objects.png" alt="s3-objects" width="400">
+      <strong>Verification:</strong> 
+      <ul>
+         <li>
+            The subscriber will receive an email: <em>"New Event Added: [Title] on [Date]"</em>.<br>
+            <img src="assets/aws-event-alert-email.png" alt="aws-event-alert-email" width="800"/>
+         </li>
+         <li>The S3 bucket will show an updated <code>events.json</code> file with the new entry.</li>
+      </ul>
    </li>
 </ol>
 <div align="right"><a href="#readme-top">↑ Back to Top</a></div>
-<h2 id="roadmap">Project Roadmap</h2>
+<h2 id="roadmap">Roadmap</h2>
 <ul>
-   <li>[x] <strong>Core Auth:</strong> Cognito User Pool & Identity Pool Integration</li>
-   <li>[x] <strong>Data Layer:</strong> DynamoDB Persistence via AppSync GraphQL API</li>
-   <li>[x] <strong>Media:</strong> S3 Storage with IAM Role Handshake</li>
-   <li>[x] <strong>DevOps:</strong> Terraform-to-Amplify Webhook Trigger</li>
-   <li>[x] <strong>UI/UX:</strong> Add/Delete items with real-time S3 image cleanup</li>
+   <li>[x] <strong>CORS Integration:</strong> Full API Gateway preflight support for cross-origin requests.</li>
+   <li>[x] <strong>Dynamic Frontend:</strong> Terraform template injection for automatic API URL configuration.</li>
+   <li>[x] <strong>Logging:</strong> CloudWatch Log Groups for Lambda and API Gateway debugging.</li>
+   <li>[ ] <strong>SMS Support:</strong> Extend SNS to support mobile text notifications.</li>
+   <li>[ ] <strong>Frontend Auth:</strong> Integrate AWS Cognito to secure the "Create Event" card.</li>
 </ul>
 <div align="right"><a href="#readme-top">↑ Back to Top</a></div>
-
-<h2 id="challenges-faced">Challenges</h2>
+<h2 id="challenges">Challenges</h2>
 <table>
    <thead>
       <tr>
@@ -244,55 +202,41 @@ export TF_VAR_github_token=&lt;your-github-token&gt;</pre>
    </thead>
    <tbody>
       <tr>
-         <td><strong>Secure GitHub Access</strong></td>
-         <td>Used GitHub PATs stored as Sensitive Variables in Terraform Cloud to prevent hardcoding credentials in the <code>hosting module.</code></td>
+         <td><strong>CORS Preflight Failures</strong></td>
+         <td>Implemented <code>aws_api_gateway_integration_response</code> for the <code>OPTIONS</code> method to explicitly return required headers to the browser.</td>
       </tr>
       <tr>
-         <td><strong>Credential Race Condition</strong></td>
-         <td>Disabled Amplify auto-build and implemented a <code>null_resource</code> with <code>local-exec</code> to trigger builds only after Infra variables are set.</td>
+         <td><strong>S3 DNS Propagation</strong></td>
+         <td>Encountered <code>no such host</code> during initial upload. Added <code>depends_on</code> blocks to ensure Bucket Policies are active before object upload.</td>
       </tr>
       <tr>
-         <td><strong>Empty IAM Credentials</strong></td>
-         <td>Corrected the <code>provider_name</code> in the Identity Pool by stripping <code>https://</code> from the User Pool endpoint.</td>
+         <td><strong>Browser Caching</strong></td>
+         <td>Utilized <code>etag = filemd5()</code> in Terraform for CSS/JS files to ensure the browser fetches the latest version after an update.</td>
       </tr>
       <tr>
-         <td><strong>Unauthenticated Access</strong></td>
-         <td>Implemented a dummy <code>unauthenticated</code> IAM role to satisfy Cognito's requirement for a complete Role Mapping.</td>
-      </tr>
-      <tr>
-         <td><strong>Dangling S3 Objects</strong></td>
-         <td>Updated <code>handleDelete</code> logic to parse the S3 URL and call <code>Storage.remove()</code> before deleting the DynamoDB record to prevent storage bloat.</td>
-      </tr>
-      <tr>
-         <td><strong>Missing User Attributes</strong></td>
-         <td>Configured <code>read_attributes</code> in Terraform and utilized <code>fetchUserAttributes</code> in React to display the <code>preferred_username</code> instead of the Cognito UUID.</td>
-      </tr>
-      <tr>
-         <td><strong>Regional Mismatch</strong></td>
-         <td>Standardized <code>VITE_REGION</code> across <code>main.jsx</code> and <code>App.jsx</code> to ensure S3 and Cognito clients targeted the correct Singapore (<code>ap-southeast-1</code>) endpoint.</td>
+         <td><strong>Decoupled States</strong></td>
+         <td>Addressed the "Pending Confirmation" confusion by clarifying that SNS <code>Publish</code> can occur even if the specific subscriber hasn't opted in yet.</td>
       </tr>
    </tbody>
 </table>
 <div align="right"><a href="#readme-top">↑ Back to Top</a></div>
-
 <h2 id="cost-optimization">Cost Optimization</h2>
 <ul>
-   <li><strong>Serverless Pricing:</strong> No costs incurred while the app is idle (Pay-as-you-go).</li>
-   <li><strong>Free Tier:</strong> Stays within limits for the first 50,000 monthly active users (Cognito).</li>
-   <li><strong>Amplify Webhooks:</strong> Prevents multiple failed builds by ensuring the environment is ready before building.</li>
-   <li><strong>Storage Efficiency:</strong> Explicitly deletes media from S3 when a list item is removed, ensuring you don't pay for "ghost" images that are no longer referenced in the database.</li>
+   <li><strong>100% Free Tier Eligible:</strong> Uses S3, Lambda, and SNS—all of which fall under the AWS Free Tier for low-volume usage.</li>
+   <li><strong>Log Retention:</strong> CloudWatch logs are set to expire after 1 day to prevent storage costs from accumulating.</li>
+   <li><strong>Tagging Strategy:</strong> Implemented <code>locals { common_tags }</code> to label all resources, making it easy to track costs in the AWS Billing Dashboard.</li>
 </ul>
 <div align="right"><a href="#readme-top">↑ Back to Top</a></div>
 
-[contributors-shield]: https://img.shields.io/github/contributors/ShenLoong99/aws-terraform-bucket-list-tracker.svg?style=for-the-badge
-[contributors-url]: https://github.com/ShenLoong99/aws-terraform-bucket-list-tracker/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/ShenLoong99/aws-terraform-bucket-list-tracker.svg?style=for-the-badge
-[forks-url]: https://github.com/ShenLoong99/aws-terraform-bucket-list-tracker/network/members
-[stars-shield]: https://img.shields.io/github/stars/ShenLoong99/aws-terraform-bucket-list-tracker.svg?style=for-the-badge
-[stars-url]: https://github.com/ShenLoong99/aws-terraform-bucket-list-tracker/stargazers
-[issues-shield]: https://img.shields.io/github/issues/ShenLoong99/aws-terraform-bucket-list-tracker.svg?style=for-the-badge
-[issues-url]: https://github.com/ShenLoong99/aws-terraform-bucket-list-tracker/issues
-[license-shield]: https://img.shields.io/github/license/ShenLoong99/aws-terraform-bucket-list-tracker.svg?style=for-the-badge
-[license-url]: https://github.com/ShenLoong99/aws-terraform-bucket-list-tracker/blob/master/LICENSE.txt
+[contributors-shield]: https://img.shields.io/github/contributors/ShenLoong99/aws-terraform-event-announcement-system.svg?style=for-the-badge
+[contributors-url]: https://github.com/ShenLoong99/aws-terraform-event-announcement-system/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/ShenLoong99/aws-terraform-event-announcement-system.svg?style=for-the-badge
+[forks-url]: https://github.com/ShenLoong99/aws-terraform-event-announcement-system/network/members
+[stars-shield]: https://img.shields.io/github/stars/ShenLoong99/aws-terraform-event-announcement-system.svg?style=for-the-badge
+[stars-url]: https://github.com/ShenLoong99/aws-terraform-event-announcement-system/stargazers
+[issues-shield]: https://img.shields.io/github/issues/ShenLoong99/aws-terraform-event-announcement-system.svg?style=for-the-badge
+[issues-url]: https://github.com/ShenLoong99/aws-terraform-event-announcement-system/issues
+[license-shield]: https://img.shields.io/github/license/ShenLoong99/aws-terraform-event-announcement-system.svg?style=for-the-badge
+[license-url]: https://github.com/ShenLoong99/aws-terraform-event-announcement-system/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/si-kai-tan
