@@ -6,12 +6,22 @@ body {
 	line-height: 1.6;
 }
 
-.card {
-	border: 1px solid #ddd;
-	padding: 20px;
-	border-radius: 8px;
-	box-shadow: 2px 2px 10px #eee;
-	margin-bottom: 20px;
+/* Subtle improvement to the card's appearance */
+.card { 
+    border: 1px solid #eee; 
+    padding: 25px; /* Slightly more breathing room */
+    border-radius: 12px; 
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05); 
+    margin-bottom: 25px; 
+    background: #fff;
+}
+
+/* Specific styling for text and email inputs */
+input[type="text"], 
+input[type="email"], 
+input[type="date"] {
+    border: 1px solid #ddd;
+    transition: border-color 0.3s ease;
 }
 
 input,
@@ -26,13 +36,23 @@ button {
 	box-sizing: border-box;
 }
 
-button {
-	background: #232f3e;
-	color: white;
-	cursor: pointer;
-	border: none;
+/* Adds a glow/color change when the user clicks into the box */
+input:focus {
+    outline: none;
+    border-color: #232f3e;
+    box-shadow: 0 0 5px rgba(35, 47, 62, 0.2);
 }
 
-button:hover {
-	background: #37475a;
+button { 
+    background: #232f3e; 
+    color: white; 
+    cursor: pointer; 
+    border: none; 
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: background 0.2s;
+}
+
+button:hover { 
+    background: #37475a; 
 }
