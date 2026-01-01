@@ -1,5 +1,38 @@
-body { font-family: Arial, sans-serif; max-width: 600px; margin: 50px auto; padding: 20px; line-height: 1.6; }
-.card { border: 1px solid #ddd; padding: 20px; border-radius: 8px; box-shadow: 2px 2px 10px #eee; margin-bottom: 20px; }
-input, button { width: 100%; padding: 10px; margin: 10px 0; border-radius: 4px; border: 1px solid #ccc; }
-button { background: #232f3e; color: white; cursor: pointer; border: none; }
-button:hover { background: #37475a; }
+body {
+	font-family: Arial, sans-serif;
+	max-width: 600px;
+	margin: 50px auto;
+	padding: 20px;
+	line-height: 1.6;
+}
+
+.card {
+	border: 1px solid #ddd;
+	padding: 20px;
+	border-radius: 8px;
+	box-shadow: 2px 2px 10px #eee;
+	margin-bottom: 20px;
+}
+
+input,
+button {
+	width: 100%;
+	/* Increase horizontal padding to 15px for a better look */
+	padding: 10px 15px;
+	margin: 10px 0;
+	border-radius: 4px;
+	border: 1px solid #ccc;
+	/* CRITICAL: Ensures width includes the padding */
+	box-sizing: border-box;
+}
+
+button {
+	background: #232f3e;
+	color: white;
+	cursor: pointer;
+	border: none;
+}
+
+button:hover {
+	background: #37475a;
+}
