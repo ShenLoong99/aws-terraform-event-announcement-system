@@ -144,12 +144,6 @@ resource "aws_sns_topic" "event_updates" {
   name = "event-announcement-topic"
 }
 
-resource "aws_sns_topic_subscription" "user_updates" {
-  topic_arn = aws_sns_topic.event_updates.arn
-  protocol  = "email"
-  endpoint  = "example@email.com"
-}
-
 # iam.tf snippet
 resource "aws_iam_role" "lambda_role" {
   name = "event_project_role"
