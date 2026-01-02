@@ -9,7 +9,8 @@
 
 <div>
    <h1>📢 Serverless Event Notifier</h1>
-   <p align="center"> <img src="assets/aws-sns-logo.png" alt="aws-sns-logo" width="800"/><br>
+   <p align="center">
+      <img src="assets/aws-sns-logo.png" alt="aws-sns-logo" width="800"/><br>
       <strong>Automated Multi-Channel Event Distribution System</strong> 
    </p>
    <p> The <strong>Serverless Event Notifier</strong> is a full-stack solution enabling organizations to manage event listings and instantly broadcast updates to subscribers. Built with a decoupled microservices architecture, it leverages AWS Lambda, SNS, and S3 to provide a highly scalable, zero-maintenance notification pipeline. <br /> <a href="#about-the-project"><strong>Explore the docs »</strong></a> </p>
@@ -58,6 +59,7 @@
 </ul>
 <div align="right"><a href="#readme-top">↑ Back to Top</a></div>
 <h2 id="architecture">Architecture</h2>
+<img src="assets/aws-event-announcement-system.jpg" alt="aws-event-announcement-system" width="800"/>
 <p> The system utilizes a <strong>Serverless Event-Driven Architecture</strong>: </p>
 <ol>
    <li><strong>Frontend Layer:</strong> Static HTML/JS hosted on S3 sends POST requests to API Gateway.</li>
