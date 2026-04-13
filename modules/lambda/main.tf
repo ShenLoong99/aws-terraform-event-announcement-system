@@ -53,6 +53,11 @@ resource "aws_iam_role_policy" "lambda_permissions" {
         Resource = aws_sns_topic.event_updates.arn
       },
       {
+        Action   = ["s3:GetObject", "s3:PutObject"],
+        Effect   = "Allow",
+        Resource = "${var.bucket_arn}/events.json"
+      },
+      {
         Action   = "sqs:SendMessage"
         Effect   = "Allow"
         Resource = aws_sqs_queue.lambda_dlq.arn
@@ -61,6 +66,7 @@ resource "aws_iam_role_policy" "lambda_permissions" {
         Action = ["logs:CreateLogGroup", "logs:CreateLogStream", "logs:PutLogEvents"],
         Effect = "Allow",
         Resource = [
+          "${var.api_logs_arn}:*",
           "${aws_cloudwatch_log_group.sub_logs.arn}:*"
         ]
       }
