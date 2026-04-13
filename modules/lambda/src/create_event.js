@@ -40,13 +40,13 @@ exports.handler = async (event) => {
         };
     } catch (err) {
         console.error(err);
-        return { 
-            statusCode: 500, 
-            headers: { 
+        return {
+            statusCode: 500,
+            headers: {
                 "Access-Control-Allow-Origin": "*",
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ error: err.message }) 
+            body: JSON.stringify({ error: err.message })
         };
     }
 };

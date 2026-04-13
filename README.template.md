@@ -11,7 +11,7 @@
    <h1>📢 Serverless Event Notifier</h1>
    <p align="center">
       <img src="assets/aws-sns-logo.png" alt="aws-sns-logo" width="800"/><br>
-      <strong>Automated Multi-Channel Event Distribution System</strong> 
+      <strong>Automated Multi-Channel Event Distribution System</strong>
    </p>
    <p> The <strong>Serverless Event Notifier</strong> is a full-stack solution enabling organizations to manage event listings and instantly broadcast updates to subscribers. Built with a decoupled microservices architecture, it leverages AWS Lambda, SNS, and S3 to provide a highly scalable, zero-maintenance notification pipeline. <br /> <a href="#about-the-project"><strong>Explore the docs »</strong></a> </p>
 </div>
@@ -34,13 +34,13 @@
 <p> This project focuses on the <strong>Decoupled Pub/Sub Pattern</strong>. It demonstrates how to handle asynchronous workflows—where a user creates an event in a web dashboard, and the system automatically updates a data store (S3) while simultaneously triggering a notification broadcast (SNS). The entire lifecycle, from the frontend hosting to the backend API Gateway triggers, is provisioned via <strong>Terraform</strong> for 100% reproducible infrastructure. </p>
 <div align="right"><a href="#readme-top">↑ Back to Top</a></div>
 <h2 id="built-with">Built With</h2>
-<p> 
-   <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg" alt="javascript" width="45" height="45" style="margin: 10px;"/> 
-   <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/terraform/terraform-original.svg" alt="terraform" width="45" height="45" style="margin: 10px;"/> 
+<p>
+   <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg" alt="javascript" width="45" height="45" style="margin: 10px;"/>
+   <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/terraform/terraform-original.svg" alt="terraform" width="45" height="45" style="margin: 10px;"/>
    <img src="https://raw.githubusercontent.com/weibeld/aws-icons-svg/main/q1-2022/Architecture-Service-Icons_01312022/Arch_App-Integration/Arch_48/Arch_Amazon-Simple-Notification-Service_48.svg" alt="sns" width="45" height="45" style="margin: 10px;"/>
-   <img src="https://raw.githubusercontent.com/weibeld/aws-icons-svg/main/q1-2022/Architecture-Service-Icons_01312022/Arch_Compute/48/Arch_AWS-Lambda_48.svg" alt="lambda" width="45" height="45" style="margin: 10px;"/> 
-   <img src="https://raw.githubusercontent.com/weibeld/aws-icons-svg/main/q1-2022/Resource-Icons_01312022/Res_Storage/Res_48_Light/Res_Amazon-Simple-Storage-Service_S3-Standard_48_Light.svg" alt="s3" width="45" height="45" style="margin: 10px;"/> 
-   <img src="https://raw.githubusercontent.com/weibeld/aws-icons-svg/main/q1-2022/Architecture-Service-Icons_01312022/Arch_App-Integration/Arch_48/Arch_ Amazon-API-Gateway_48.svg" alt="api-gateway" width="45" height="45" style="margin: 10px;"/> 
+   <img src="https://raw.githubusercontent.com/weibeld/aws-icons-svg/main/q1-2022/Architecture-Service-Icons_01312022/Arch_Compute/48/Arch_AWS-Lambda_48.svg" alt="lambda" width="45" height="45" style="margin: 10px;"/>
+   <img src="https://raw.githubusercontent.com/weibeld/aws-icons-svg/main/q1-2022/Resource-Icons_01312022/Res_Storage/Res_48_Light/Res_Amazon-Simple-Storage-Service_S3-Standard_48_Light.svg" alt="s3" width="45" height="45" style="margin: 10px;"/>
+   <img src="https://raw.githubusercontent.com/weibeld/aws-icons-svg/main/q1-2022/Architecture-Service-Icons_01312022/Arch_App-Integration/Arch_48/Arch_ Amazon-API-Gateway_48.svg" alt="api-gateway" width="45" height="45" style="margin: 10px;"/>
 </p>
 <ul>
    <li><strong>Vanilla JS + HTML5:</strong> Clean, lightweight frontend using Fetch API for asynchronous backend calls.</li>
@@ -64,7 +64,7 @@
 <ol>
    <li><strong>Frontend Layer:</strong> Static HTML/JS hosted on S3 sends POST requests to API Gateway.</li>
    <li>
-      <strong>Logic Layer:</strong> API Gateway triggers Lambda functions for two specific actions: 
+      <strong>Logic Layer:</strong> API Gateway triggers Lambda functions for two specific actions:
       <ul>
          <li><code>Subscriber Lambda</code>: Registers email addresses to an SNS Topic.</li>
          <li><code>CreateEvent Lambda</code>: Updates <code>events.json</code> in S3 and publishes a message to the SNS Topic.</li>
@@ -174,7 +174,7 @@ export AWS_SECRET_ACCESS_KEY=&lt;your-aws-secret-access-key&gt;
       <img src="assets/event-created.png" alt="event-created" width="400"/>
    </li>
    <li>
-      <strong>Verification:</strong> 
+      <strong>Verification:</strong>
       <ul>
          <li>
             The subscriber will receive an email: <em>"New Event Added: [Title] on [Date]"</em>.<br>
