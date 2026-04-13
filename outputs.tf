@@ -12,3 +12,8 @@ output "api_stage_url" {
   description = "The specific production stage URL for testing"
   value       = "${module.api.api_url}/prod"
 }
+
+output "AWS_REGION" {
+  description = "The AWS region where the resources are deployed"
+  value       = var.aws_region
+}
