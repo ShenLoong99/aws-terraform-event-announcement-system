@@ -47,6 +47,11 @@ resource "aws_iam_role_policy" "lambda_permissions" {
         Resource = aws_sns_topic.event_updates.arn
       },
       {
+        Action   = "sqs:SendMessage"
+        Effect   = "Allow"
+        Resource = aws_sqs_queue.lambda_dlq.arn
+      },
+      {
         Action = ["logs:CreateLogGroup", "logs:CreateLogStream", "logs:PutLogEvents"],
         Effect = "Allow",
         Resource = [
@@ -59,7 +64,7 @@ resource "aws_iam_role_policy" "lambda_permissions" {
 
 # SQS Queue for Lambda Dead Letter Queue (DLQ)
 resource "aws_sqs_queue" "lambda_dlq" {
-  name                    = "csv-pipeline-lambda-dlq"
+  name                    = "event-announcement-lambda-dlq"
   sqs_managed_sse_enabled = true
 }
 
