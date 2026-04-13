@@ -91,13 +91,13 @@ resource "aws_s3_object" "index" {
 
   # Use content instead of source for templates
   content = templatefile("${path.module}/frontend/index.html.tftpl", {
-    api_url     = var.api_invoke_url
+    api_url     = var.api_url
     api_key_val = var.api_key
   })
 
   # Use md5() on the content string since the physical .html file doesn't exist yet
   etag = md5(templatefile("${path.module}/frontend/index.html.tftpl", {
-    api_url     = var.api_invoke_url
+    api_url     = var.api_url
     api_key_val = var.api_key
   }))
 
@@ -140,21 +140,4 @@ resource "aws_s3_object" "data" {
     aws_s3_bucket_website_configuration.hosting,
     aws_s3_bucket_policy.allow_public
   ]
-}
-
-# IAM Policy for Lambda to access S3
-resource "aws_iam_role_policy" "s3_access_policy" {
-  name = "event_project_policy"
-  role = var.lambda_role_id
-
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Action   = ["s3:GetObject", "s3:PutObject"],
-        Effect   = "Allow",
-        Resource = "${aws_s3_bucket.website.arn}/events.json"
-      }
-    ]
-  })
 }

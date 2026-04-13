@@ -236,25 +236,6 @@ resource "aws_api_gateway_stage" "prod" {
   }
 }
 
-# IAM Role Policy for API Gateway to write logs to CloudWatch
-resource "aws_iam_role_policy" "api_logs_policy" {
-  name = "event_project_policy"
-  role = var.lambda_role_id
-
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Action = ["logs:CreateLogGroup", "logs:CreateLogStream", "logs:PutLogEvents"],
-        Effect = "Allow",
-        Resource = [
-          "${aws_cloudwatch_log_group.api_logs.arn}:*"
-        ]
-      }
-    ]
-  })
-}
-
 # Log Group for the API Gateway
 resource "aws_cloudwatch_log_group" "api_logs" {
   # This matches the 'EventAnnouncementAPI' name in your error logs
