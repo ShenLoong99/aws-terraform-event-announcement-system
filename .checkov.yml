@@ -5,6 +5,8 @@ skip-check:
   - CKV_AWS_309 # Ensure API GatewayV2 routes specify an authorization type (Not necessary, replaced with IAM)
   - CKV2_AWS_51 # Ensure AWS API Gateway endpoints uses client certificate authentication (Redundant since backend is lambda)
   - CKV2_AWS_29 # Ensure public API gateway are protected by WAF (AWF is expensive and unnecessary for this project)
+  - CKV_AWS_120 # Ensure API Gateway caching is enabled (Avoids additional caching costs)
+  - CKV_AWS_225 # Ensure API Gateway method setting caching is enabled (Avoids additional caching costs)
 
   # lambda-specific skips
   - CKV_AWS_117 # Ensure that AWS Lambda function is configured inside a VPC (Avoids ~$32/month (NAT Gateway))

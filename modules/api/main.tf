@@ -2,6 +2,10 @@
 resource "aws_api_gateway_rest_api" "event_api" {
   name        = "EventAnnouncementAPI"
   description = "API for Event Subscriptions and Creation"
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 # SUBSCRIBE ENDPOINT
@@ -13,11 +17,12 @@ resource "aws_api_gateway_resource" "subscribe" {
 
 # The actual POST method for subscribing
 resource "aws_api_gateway_method" "sub_post" {
-  rest_api_id      = aws_api_gateway_rest_api.event_api.id
-  resource_id      = aws_api_gateway_resource.subscribe.id
-  http_method      = "POST"
-  authorization    = "NONE"
-  api_key_required = true
+  rest_api_id          = aws_api_gateway_rest_api.event_api.id
+  resource_id          = aws_api_gateway_resource.subscribe.id
+  http_method          = "POST"
+  authorization        = "NONE"
+  api_key_required     = true
+  request_validator_id = aws_api_gateway_request_validator.event_api_validator.id
 }
 
 # Integrate the POST method with your Subscribe Lambda
@@ -100,11 +105,12 @@ resource "aws_api_gateway_resource" "create_event" {
 
 # The actual POST method for creating events
 resource "aws_api_gateway_method" "event_post" {
-  rest_api_id      = aws_api_gateway_rest_api.event_api.id
-  resource_id      = aws_api_gateway_resource.create_event.id
-  http_method      = "POST"
-  authorization    = "NONE"
-  api_key_required = true
+  rest_api_id          = aws_api_gateway_rest_api.event_api.id
+  resource_id          = aws_api_gateway_resource.create_event.id
+  http_method          = "POST"
+  authorization        = "NONE"
+  api_key_required     = true
+  request_validator_id = aws_api_gateway_request_validator.event_api_validator.id
 }
 
 # Integrate POST with the Create Event Lambda
@@ -215,9 +221,10 @@ resource "aws_api_gateway_deployment" "event_deploy" {
 
 # The "Prod" Stage
 resource "aws_api_gateway_stage" "prod" {
-  deployment_id = aws_api_gateway_deployment.event_deploy.id
-  rest_api_id   = aws_api_gateway_rest_api.event_api.id
-  stage_name    = "prod"
+  deployment_id        = aws_api_gateway_deployment.event_deploy.id
+  rest_api_id          = aws_api_gateway_rest_api.event_api.id
+  stage_name           = "prod"
+  xray_tracing_enabled = true
 
   # Prevents Terraform from destroying the stage before the new one is ready
   lifecycle {
