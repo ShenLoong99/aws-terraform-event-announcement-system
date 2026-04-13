@@ -1,3 +1,9 @@
+# Local names for easier reference
+locals {
+  sub_func_name    = "SubscribeLambda"
+  create_func_name = "CreateEventLambda"
+}
+
 # Data source to package the Subscribe Lambda
 data "archive_file" "sub_zip" {
   type        = "zip"
@@ -72,14 +78,17 @@ resource "aws_sqs_queue" "lambda_dlq" {
 resource "aws_lambda_function" "subscribe" {
   filename         = data.archive_file.sub_zip.output_path
   source_code_hash = data.archive_file.sub_zip.output_base64sha256
-  function_name    = "SubscribeLambda"
+  function_name    = local.sub_func_name
   role             = aws_iam_role.lambda_role.arn
   handler          = "subscriber.handler"
   runtime          = "nodejs20.x"
+  memory_size      = 128 # Minimum RAM (cheapest/free)
+  timeout          = 10  # Kill function after 10 seconds
 
-  # LIMITS to reduce costs
-  memory_size = 128 # Minimum RAM (cheapest/free)
-  timeout     = 10  # Kill function after 10 seconds
+  depends_on = [
+    aws_iam_role_policy.lambda_permissions,
+    aws_sqs_queue.lambda_dlq
+  ]
 
   dead_letter_config {
     target_arn = aws_sqs_queue.lambda_dlq.arn
@@ -104,14 +113,17 @@ resource "aws_lambda_function" "subscribe" {
 resource "aws_lambda_function" "create_event" {
   filename         = data.archive_file.event_zip.output_path
   source_code_hash = data.archive_file.event_zip.output_base64sha256
-  function_name    = "CreateEventLambda"
+  function_name    = local.create_func_name
   role             = aws_iam_role.lambda_role.arn
   handler          = "create_event.handler"
   runtime          = "nodejs20.x"
+  memory_size      = 128
+  timeout          = 20 # S3/SNS writes might need slightly longer than sub
 
-  # LIMITS to reduce costs
-  memory_size = 128
-  timeout     = 20 # S3/SNS writes might need slightly longer than sub
+  depends_on = [
+    aws_iam_role_policy.lambda_permissions,
+    aws_sqs_queue.lambda_dlq
+  ]
 
   dead_letter_config {
     target_arn = aws_sqs_queue.lambda_dlq.arn
@@ -135,12 +147,12 @@ resource "aws_lambda_function" "create_event" {
 
 # Log Group for Subscribe Lambda
 resource "aws_cloudwatch_log_group" "sub_logs" {
-  name              = "/aws/lambda/${aws_lambda_function.subscribe.function_name}"
+  name              = "/aws/lambda/${local.sub_func_name}"
   retention_in_days = 1
 }
 
 # Log Group for Create Event Lambda
 resource "aws_cloudwatch_log_group" "event_logs" {
-  name              = "/aws/lambda/${aws_lambda_function.create_event.function_name}"
+  name              = "/aws/lambda/${local.create_func_name}"
   retention_in_days = 1
 }
