@@ -7,18 +7,18 @@ body {
 }
 
 /* Subtle improvement to the card's appearance */
-.card { 
-    border: 1px solid #eee; 
+.card {
+    border: 1px solid #eee;
     padding: 25px; /* Slightly more breathing room */
-    border-radius: 12px; 
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05); 
-    margin-bottom: 25px; 
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    margin-bottom: 25px;
     background: #fff;
 }
 
 /* Specific styling for text and email inputs */
-input[type="text"], 
-input[type="email"], 
+input[type="text"],
+input[type="email"],
 input[type="date"] {
     border: 1px solid #ddd;
     transition: border-color 0.3s ease;
@@ -43,16 +43,16 @@ input:focus {
     box-shadow: 0 0 5px rgba(35, 47, 62, 0.2);
 }
 
-button { 
-    background: #232f3e; 
-    color: white; 
-    cursor: pointer; 
-    border: none; 
+button {
+    background: #232f3e;
+    color: white;
+    cursor: pointer;
+    border: none;
     font-weight: bold;
     text-transform: uppercase;
     transition: background 0.2s;
 }
 
-button:hover { 
-    background: #37475a; 
+button:hover {
+    background: #37475a;
 }

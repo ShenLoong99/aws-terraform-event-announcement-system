@@ -1,8 +1,14 @@
 output "website_url" {
-  value = "http://${aws_s3_bucket_website_configuration.hosting.website_endpoint}"
+  description = "The URL of the hosted website"
+  value       = module.storage.website_url
 }
 
 output "api_url" {
   description = "The URL to put into your frontend code"
-  value       = aws_api_gateway_stage.prod.invoke_url
+  value       = module.api.api_url
+}
+
+output "api_stage_url" {
+  description = "The specific production stage URL for testing"
+  value       = "${module.api.api_url}/prod"
 }
