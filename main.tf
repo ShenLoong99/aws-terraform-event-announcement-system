@@ -11,6 +11,7 @@ module "storage" {
   source         = "./modules/storage"
   lambda_role_id = module.lambda.lambda_role_id
   api_invoke_url = module.api.api_invoke_url
+  api_key        = module.api.api_key
 }
 
 # modules/api: Sets up an API Gateway REST API with endpoints that integrate with the Lambda functions.

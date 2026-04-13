@@ -8,6 +8,33 @@ resource "aws_s3_bucket" "website" {
   }
 }
 
+resource "aws_s3_bucket_lifecycle_configuration" "frontend_lifecycle" {
+  bucket = aws_s3_bucket.website.id
+
+  rule {
+    id     = "cleanup-old-files"
+    status = "Enabled"
+
+    # This empty filter tells AWS the rule applies to the WHOLE bucket
+    filter {}
+
+    # Example 1: Permanently delete objects after 30 days
+    expiration {
+      days = 30
+    }
+
+    # Abort failed uploads after 7 days to save money
+    abort_incomplete_multipart_upload {
+      days_after_initiation = 7
+    }
+
+    # Example 2: If you enabled versioning, delete non-current versions after 7 days
+    noncurrent_version_expiration {
+      noncurrent_days = 7
+    }
+  }
+}
+
 # Protects your events.json from accidental deletion/corruption
 resource "aws_s3_bucket_versioning" "website_versioning" {
   bucket = aws_s3_bucket.website.id
@@ -26,7 +53,8 @@ resource "aws_s3_bucket_website_configuration" "hosting" {
   index_document { suffix = "index.html" }
 }
 
-// S3 Bucket Public Access Configuration
+# S3 Bucket Public Access Configuration
+# checkov:skip=CKV2_AWS_6:Public access is required for this static site
 resource "aws_s3_bucket_public_access_block" "public" {
   bucket = aws_s3_bucket.website.id
 
@@ -37,7 +65,7 @@ resource "aws_s3_bucket_public_access_block" "public" {
   restrict_public_buckets = false # Must be false for public website access
 }
 
-// S3 Bucket Policy
+# S3 Bucket Policy
 resource "aws_s3_bucket_policy" "allow_public" {
   bucket = aws_s3_bucket.website.id
 
@@ -64,12 +92,14 @@ resource "aws_s3_object" "index" {
 
   # Use content instead of source for templates
   content = templatefile("${path.module}/frontend/index.html.tftpl", {
-    api_url = var.api_invoke_url
+    api_url     = var.api_invoke_url
+    api_key_val = var.api_key
   })
 
   # Use md5() on the content string since the physical .html file doesn't exist yet
   etag = md5(templatefile("${path.module}/frontend/index.html.tftpl", {
-    api_url = var.api_invoke_url
+    api_url     = var.api_invoke_url
+    api_key_val = var.api_key
   }))
 
   # Wait for the bucket and its website/policy config to be READY
@@ -113,6 +143,7 @@ resource "aws_s3_object" "data" {
   ]
 }
 
+# Output the website URL for easy access
 resource "aws_iam_role_policy" "lambda_permissions" {
   name = "event_project_policy"
   role = var.lambda_role_id

@@ -13,10 +13,11 @@ resource "aws_api_gateway_resource" "subscribe" {
 
 # The actual POST method for subscribing
 resource "aws_api_gateway_method" "sub_post" {
-  rest_api_id   = aws_api_gateway_rest_api.event_api.id
-  resource_id   = aws_api_gateway_resource.subscribe.id
-  http_method   = "POST"
-  authorization = "NONE"
+  rest_api_id      = aws_api_gateway_rest_api.event_api.id
+  resource_id      = aws_api_gateway_resource.subscribe.id
+  http_method      = "POST"
+  authorization    = "NONE"
+  api_key_required = true
 }
 
 # Integrate the POST method with your Subscribe Lambda
@@ -99,10 +100,11 @@ resource "aws_api_gateway_resource" "create_event" {
 
 # The actual POST method for creating events
 resource "aws_api_gateway_method" "event_post" {
-  rest_api_id   = aws_api_gateway_rest_api.event_api.id
-  resource_id   = aws_api_gateway_resource.create_event.id
-  http_method   = "POST"
-  authorization = "NONE"
+  rest_api_id      = aws_api_gateway_rest_api.event_api.id
+  resource_id      = aws_api_gateway_resource.create_event.id
+  http_method      = "POST"
+  authorization    = "NONE"
+  api_key_required = true
 }
 
 # Integrate POST with the Create Event Lambda
@@ -259,9 +261,16 @@ resource "aws_api_gateway_method_settings" "all" {
 
   settings {
     logging_level      = "INFO"
-    data_trace_enabled = true
+    data_trace_enabled = false
     metrics_enabled    = true
   }
+}
+
+resource "aws_api_gateway_request_validator" "event_api_validator" {
+  name                        = "EventApiValidator"
+  rest_api_id                 = aws_api_gateway_rest_api.event_api.id
+  validate_request_body       = true
+  validate_request_parameters = true
 }
 
 # Create the IAM Role for API Gateway
@@ -288,4 +297,38 @@ resource "aws_iam_role_policy_attachment" "api_gateway_logs" {
 resource "aws_api_gateway_account" "settings" {
   cloudwatch_role_arn = aws_iam_role.api_gateway_logs.arn
   reset_on_delete     = true
+}
+
+# Create a unique API Key
+resource "aws_api_gateway_api_key" "my_key" {
+  name = "EventAppKey"
+}
+
+# Define a Usage Plan to prevent "Free Tier Exhaustion"
+resource "aws_api_gateway_usage_plan" "my_usage_plan" {
+  name = "StandardUsagePlan"
+
+  # Throttling prevents rapid-fire spam
+  throttle_settings {
+    burst_limit = 10 # Maximum concurrent requests
+    rate_limit  = 5  # Requests per second
+  }
+
+  # Quota prevents long-term exhaustion (e.g., monthly limits)
+  quota_settings {
+    limit  = 1000
+    period = "MONTH"
+  }
+
+  api_stages {
+    api_id = aws_api_gateway_rest_api.event_api.id
+    stage  = aws_api_gateway_stage.prod.stage_name
+  }
+}
+
+# Link the Key to the Usage Plan
+resource "aws_api_gateway_usage_plan_key" "main" {
+  key_id        = aws_api_gateway_api_key.my_key.id
+  key_type      = "API_KEY"
+  usage_plan_id = aws_api_gateway_usage_plan.my_usage_plan.id
 }

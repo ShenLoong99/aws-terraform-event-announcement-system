@@ -14,7 +14,8 @@ data "archive_file" "event_zip" {
 
 # SNS Topic
 resource "aws_sns_topic" "event_updates" {
-  name = "event-announcement-topic"
+  name              = "event-announcement-topic"
+  kms_master_key_id = "alias/aws/sns"
 }
 
 # Lambda function definitions and IAM role
@@ -56,6 +57,12 @@ resource "aws_iam_role_policy" "lambda_permissions" {
   })
 }
 
+# SQS Queue for Lambda Dead Letter Queue (DLQ)
+resource "aws_sqs_queue" "lambda_dlq" {
+  name                    = "csv-pipeline-lambda-dlq"
+  sqs_managed_sse_enabled = true
+}
+
 # Grant Lambda permissions to read/write to S3
 resource "aws_lambda_function" "subscribe" {
   filename         = data.archive_file.sub_zip.output_path
@@ -69,7 +76,19 @@ resource "aws_lambda_function" "subscribe" {
   memory_size = 128 # Minimum RAM (cheapest/free)
   timeout     = 10  # Kill function after 10 seconds
 
-  environment { variables = { SNS_TOPIC_ARN = aws_sns_topic.event_updates.arn } }
+  dead_letter_config {
+    target_arn = aws_sqs_queue.lambda_dlq.arn
+  }
+
+  tracing_config {
+    mode = "Active"
+  }
+
+  environment {
+    variables = {
+      SNS_TOPIC_ARN = aws_sns_topic.event_updates.arn
+    }
+  }
 
   tags = {
     Function = "Subscriber"
@@ -88,6 +107,14 @@ resource "aws_lambda_function" "create_event" {
   # LIMITS to reduce costs
   memory_size = 128
   timeout     = 20 # S3/SNS writes might need slightly longer than sub
+
+  dead_letter_config {
+    target_arn = aws_sqs_queue.lambda_dlq.arn
+  }
+
+  tracing_config {
+    mode = "Active"
+  }
 
   environment {
     variables = {
