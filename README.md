@@ -184,12 +184,11 @@ No resources.
 
 ## Outputs
 
-| Name                                                                       | Description                                     |
-| -------------------------------------------------------------------------- | ----------------------------------------------- |
-| <a name="output_api_stage_url"></a> [api_stage_url](#output_api_stage_url) | The specific production stage URL for testing   |
-| <a name="output_api_url"></a> [api_url](#output_api_url)                   | The URL to put into your frontend code          |
-| <a name="output_aws_region"></a> [aws_region](#output_aws_region)          | The AWS region where the resources are deployed |
-| <a name="output_website_url"></a> [website_url](#output_website_url)       | The URL of the hosted website                   |
+| Name                                                                 | Description                                     |
+| -------------------------------------------------------------------- | ----------------------------------------------- |
+| <a name="output_api_url"></a> [api_url](#output_api_url)             | The URL to put into your frontend code          |
+| <a name="output_aws_region"></a> [aws_region](#output_aws_region)    | The AWS region where the resources are deployed |
+| <a name="output_website_url"></a> [website_url](#output_website_url) | The URL of the hosted website                   |
 
 <!-- END_TF_DOCS -->
 </details>

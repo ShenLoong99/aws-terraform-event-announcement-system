@@ -30,6 +30,8 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_api_logs_arn"></a> [api\_logs\_arn](#input\_api\_logs\_arn) | The ARN of the CloudWatch Logs group for API Gateway access logs | `string` | n/a | yes |
+| <a name="input_bucket_arn"></a> [bucket\_arn](#input\_bucket\_arn) | The ARN of the S3 bucket for Lambda access | `string` | n/a | yes |
 | <a name="input_bucket_id"></a> [bucket\_id](#input\_bucket\_id) | The ID of the S3 bucket created for hosting the website | `string` | n/a | yes |
 
 ## Outputs

@@ -15,7 +15,6 @@ No modules.
 
 | Name | Type |
 |------|------|
-| [aws_iam_role_policy.s3_access_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource |
 | [aws_s3_bucket.website](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket) | resource |
 | [aws_s3_bucket_lifecycle_configuration.frontend_lifecycle](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_lifecycle_configuration) | resource |
 | [aws_s3_bucket_policy.allow_public](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_policy) | resource |
@@ -31,14 +30,14 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_api_invoke_url"></a> [api\_invoke\_url](#input\_api\_invoke\_url) | The invoke URL of the API Gateway | `string` | n/a | yes |
 | <a name="input_api_key"></a> [api\_key](#input\_api\_key) | The API key for the API Gateway | `string` | n/a | yes |
-| <a name="input_lambda_role_id"></a> [lambda\_role\_id](#input\_lambda\_role\_id) | The ID of the IAM role used by the Lambda functions | `string` | n/a | yes |
+| <a name="input_api_url"></a> [api\_url](#input\_api\_url) | The invoke URL of the API Gateway | `string` | n/a | yes |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
+| <a name="output_bucket_arn"></a> [bucket\_arn](#output\_bucket\_arn) | The ARN of the S3 bucket for Lambda access |
 | <a name="output_bucket_id"></a> [bucket\_id](#output\_bucket\_id) | The ID of the S3 bucket created for hosting the website |
 | <a name="output_website_url"></a> [website\_url](#output\_website\_url) | The URL of the hosted website |
 <!-- END_TF_DOCS -->

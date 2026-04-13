@@ -39,7 +39,6 @@ No modules.
 | [aws_api_gateway_usage_plan_key.main](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/api_gateway_usage_plan_key) | resource |
 | [aws_cloudwatch_log_group.api_logs](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_log_group) | resource |
 | [aws_iam_role.api_gateway_logs](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
-| [aws_iam_role_policy.api_logs_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource |
 | [aws_iam_role_policy_attachment.api_gateway_logs](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_lambda_permission.apigw_event](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_permission) | resource |
 | [aws_lambda_permission.apigw_sub](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_permission) | resource |
@@ -50,7 +49,6 @@ No modules.
 |------|-------------|------|---------|:--------:|
 | <a name="input_create_lambda_arn"></a> [create\_lambda\_arn](#input\_create\_lambda\_arn) | The ARN of the Create Event Lambda function | `string` | n/a | yes |
 | <a name="input_create_lambda_name"></a> [create\_lambda\_name](#input\_create\_lambda\_name) | The name of the Create Event Lambda function | `string` | n/a | yes |
-| <a name="input_lambda_role_id"></a> [lambda\_role\_id](#input\_lambda\_role\_id) | The ID of the IAM role used by the Lambda functions | `string` | n/a | yes |
 | <a name="input_subscribe_lambda_arn"></a> [subscribe\_lambda\_arn](#input\_subscribe\_lambda\_arn) | The ARN of the Subscribe Lambda function | `string` | n/a | yes |
 | <a name="input_subscribe_lambda_name"></a> [subscribe\_lambda\_name](#input\_subscribe\_lambda\_name) | The name of the Subscribe Lambda function | `string` | n/a | yes |
 
@@ -58,7 +56,7 @@ No modules.
 
 | Name | Description |
 |------|-------------|
-| <a name="output_api_invoke_url"></a> [api\_invoke\_url](#output\_api\_invoke\_url) | The invoke URL of the API Gateway |
 | <a name="output_api_key"></a> [api\_key](#output\_api\_key) | The API key for the API Gateway |
+| <a name="output_api_logs_arn"></a> [api\_logs\_arn](#output\_api\_logs\_arn) | The ARN of the CloudWatch Log Group for API Gateway logs |
 | <a name="output_api_url"></a> [api\_url](#output\_api\_url) | The URL to put into your frontend code |
 <!-- END_TF_DOCS -->
