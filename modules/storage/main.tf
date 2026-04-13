@@ -1,7 +1,7 @@
 # S3 Bucket (Frontend)
 resource "aws_s3_bucket" "website" {
   bucket = "event-announcement-${random_id.bucket_suffix.hex}"
-
+  # checkov:skip=CKV2_AWS_6:Public access is required for this static site
   tags = {
     Name = "Event-Frontend-Storage"
   }
@@ -53,11 +53,10 @@ resource "aws_s3_bucket_website_configuration" "hosting" {
 }
 
 # S3 Bucket Public Access Configuration
-# checkov:skip=CKV_AWS_56:Public access is required for this static site
-# checkov:skip=CKV_AWS_54:Public access is required for this static site
 resource "aws_s3_bucket_public_access_block" "public" {
   bucket = aws_s3_bucket.website.id
-
+  # checkov:skip=CKV_AWS_56:Public access is required for this static site
+  # checkov:skip=CKV_AWS_54:Public access is required for this static site
   # These must be FALSE to allow the public bucket policy
   block_public_acls       = true  # Best Practice: Use Policies, not ACLs
   block_public_policy     = false # Must be false to allow your website policy
@@ -66,13 +65,12 @@ resource "aws_s3_bucket_public_access_block" "public" {
 }
 
 # S3 Bucket Policy
-# checkov:skip=CKV_AWS_70:Public access is required for this static site
+
 resource "aws_s3_bucket_policy" "allow_public" {
   bucket = aws_s3_bucket.website.id
-
   # CRITICAL: Wait for the access blocks to be removed first
   depends_on = [aws_s3_bucket_public_access_block.public]
-
+  # checkov:skip=CKV_AWS_70:Public access is required for this static site
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [{
