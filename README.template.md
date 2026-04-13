@@ -1,5 +1,7 @@
 <a id="readme-top"></a>
 
+<div align="center">
+
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
@@ -7,14 +9,34 @@
 [![Unlicense License][license-shield]][license-url]
 [![LinkedIn][linkedin-shield]][linkedin-url]
 
-<div>
    <h1>📢 Serverless Event Notifier</h1>
-   <p align="center">
-      <img src="assets/aws-sns-logo.png" alt="aws-sns-logo" width="800"/><br>
-      <strong>Automated Multi-Channel Event Distribution System</strong>
-   </p>
-   <p> The <strong>Serverless Event Notifier</strong> is a full-stack solution enabling organizations to manage event listings and instantly broadcast updates to subscribers. Built with a decoupled microservices architecture, it leverages AWS Lambda, SNS, and S3 to provide a highly scalable, zero-maintenance notification pipeline. <br /> <a href="#about-the-project"><strong>Explore the docs »</strong></a> </p>
+   <img src="assets/aws-sns-logo.png" alt="aws-sns-logo" />
+   <p>
+      <strong>Automated Multi-Channel Event Distribution System</strong><br>
+   <p> The <strong>Serverless Event Notifier</strong> is a full-stack solution enabling organizations to manage event listings and instantly broadcast updates to subscribers. Built with a decoupled microservices architecture, it leverages AWS Lambda, SNS, and S3 to provide a highly scalable, zero-maintenance notification pipeline. </p>
+
+![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white)
+![Terraform](https://img.shields.io/badge/terraform-%235835CC.svg?style=for-the-badge&logo=terraform&logoColor=white)
+![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
+
+<br>
+
+![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white)<br>
+[![Infrastructure CI][ci-shield]][ci-url]
+[![Production Deployment][cd-shield]][cd-url]
+[![Update Documentation][docs-shield]][docs-url]
+
+<br>
+
+![Last Commit](https://img.shields.io/github/last-commit/{{GITHUB_USER}}/{{REPO_NAME}}?style=for-the-badge)
+![Repo Size](https://img.shields.io/github/repo-size/{{GITHUB_USER}}/{{REPO_NAME}}?style=for-the-badge)
+![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?style=for-the-badge&logo=pre-commit&logoColor=white)
+[![Checkov Security](https://img.shields.io/badge/Checkov-Secured-brightgreen?style=for-the-badge&logo=checkov&logoColor=white)](https://github.com/{{GITHUB_USER}}/{{REPO_NAME}}/actions/workflows/ci.yml)
+
+<a href="#about-the-project"><strong>Explore the docs »</strong></a>
+
 </div>
+
 <details>
    <summary>Table of Contents</summary>
    <ol>
@@ -23,16 +45,21 @@
       <li><a href="#use-cases">Use Cases</a></li>
       <li><a href="#architecture">Architecture</a></li>
       <li><a href="#file-structure">File Structure</a></li>
+      <li><a href="#technical">Technical Reference</a></li>
       <li><a href="#getting-started">Getting Started</a></li>
-      <li><a href="#usage">Usage & Testing</a></li>
+      <li><a href="#gitops">GitOps & CI/CD Workflow</a></li>
+      <li><a href="#usage">Usage</a></li>
       <li><a href="#roadmap">Roadmap</a></li>
-      <li><a href="#challenges">Challenges</a></li>
-      <li><a href="#cost-optimization">Cost Optimization</a></li>
+      <li><a href="#challenges-faced">Challenges</a></li>
+      <li><a href="#well-architected">Well Architected Framework</a></li>
+      <li><a href="#acknowledgements">Acknowledgements</a></li>
    </ol>
 </details>
+
 <h2 id="about-the-project">About The Project</h2>
 <p> This project focuses on the <strong>Decoupled Pub/Sub Pattern</strong>. It demonstrates how to handle asynchronous workflows—where a user creates an event in a web dashboard, and the system automatically updates a data store (S3) while simultaneously triggering a notification broadcast (SNS). The entire lifecycle, from the frontend hosting to the backend API Gateway triggers, is provisioned via <strong>Terraform</strong> for 100% reproducible infrastructure. </p>
 <div align="right"><a href="#readme-top">↑ Back to Top</a></div>
+
 <h2 id="built-with">Built With</h2>
 <p>
    <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg" alt="javascript" width="45" height="45" style="margin: 10px;"/>
@@ -51,6 +78,7 @@
    <li><strong>API Gateway:</strong> RESTful entry point with integrated CORS handling and CloudWatch logging.</li>
 </ul>
 <div align="right"><a href="#readme-top">↑ Back to Top</a></div>
+
 <h2 id="use-cases">Use Cases</h2>
 <ul>
    <li><strong>Community Announcements:</strong> Allow members to sign up for email alerts for local town hall or club meetings.</li>
@@ -58,6 +86,7 @@
    <li><strong>Marketing Campaigns:</strong> Quick-deploy landing pages to capture email leads and send instant promotion details.</li>
 </ul>
 <div align="right"><a href="#readme-top">↑ Back to Top</a></div>
+
 <h2 id="architecture">Architecture</h2>
 <img src="assets/aws-event-announcement-system.jpg" alt="aws-event-announcement-system" width="800"/>
 <p> The system utilizes a <strong>Serverless Event-Driven Architecture</strong>: </p>
@@ -74,25 +103,65 @@
    <li><strong>Infrastructure Layer:</strong> Terraform manages the deployment, including API Gateway method responses (CORS) and IAM roles.</li>
 </ol>
 <div align="right"><a href="#readme-top">↑ Back to Top</a></div>
+
 <h2 id="file-structure">File Structure</h2>
-<pre>EVENT-NOTIFIER-SYSTEM/
-├── lambda/                         # Serverless Business Logic
-│   ├── subscriber.js               # Handles SNS email subscriptions
-│   ├── create_event.js             # Updates S3 and triggers SNS broadcast
-│   ├── lambda_subscriber.zip       # Generated by Terraform (archive_file)
-│   └── lambda_create.zip           # Generated by Terraform (archive_file)
-├── frontend/                       # Static Web Assets
-│   ├── index.html.tftpl            # Dynamic template for API URL injection
-│   ├── style.css                   # UI styling (includes padding fixes)
-│   └── events.json                 # Data store for the event list
-├── .terraform/                     # Terraform local working directory
-├── .terraform.lock.hcl             # Provider version lock file
-├── main.tf                         # Primary Infrastructure configuration
-├── variables.tf                    # Region and naming variables
-├── outputs.tf                      # S3 URL and API Gateway endpoint outputs
-└── terraform.tfstate               # Local state file tracking resources
+<pre>AWS-TERRAFORM-EVENT-ANNOUNCEMENT-SYSTEM/
+├── .github/workflows/
+│   ├── cd.yml                            # Production Deployment (OIDC + S3 Sync)
+│   ├── ci.yml                            # Terraform PR Insights (Checkov, TFLint, Plan)
+│   └── documentation.yml                 # Automated Documentation Sync via terraform-docs
+├── .terraform/                           # Terraform local working directory
+├── assets/                               # Documentation images and UI design icons
+├── modules/
+│   ├── api/                              # API Gateway Module
+│   │   ├── main.tf                       # REST API, Methods, and CORS config
+│   │   ├── variables.tf
+│   │   └── outputs.tf
+│   ├── lambda/                           # Serverless Logic Module
+│   │   ├── src/                          # Source Code
+│   │   │   ├── subscriber.js             # Handles SNS email subscriptions
+│   │   │   ├── create_event.js           # Updates S3 and triggers SNS broadcast
+│   │   │   ├── lambda_subscriber.zip     # Generated by Terraform (archive_file)
+│   │   │   └── lambda_create.zip         # Generated by Terraform (archive_file)
+│   │   ├── main.tf                       # Lambda functions, IAM Roles, and SNS
+│   │   ├── variables.tf
+│   │   └── outputs.tf
+│   └── storage/                          # S3 Frontend Module
+│       frontend/                         # Static Web Assets (Source)
+│       │   ├── index.html.tftpl          # Dynamic template for API URL injection
+│       │   ├── style.css                 # UI styling
+│       │   └── events.json               # Data store for the event list
+│       ├── main.tf                       # S3 Bucket, Hosting, and Public Policies
+│       ├── variables.tf
+│       └── outputs.tf
+├── scripts/                              # Automation & Testing
+│   └── post-deploy-test.sh               # Post-CD Integration health checks
+├── .terraform.lock.hcl                   # Provider version lock file
+├── main.tf                               # Root module (Orchestrates modules)
+├── .pre-commit-config.yaml               # Local git-hook orchestration
+├── .tflint.hcl                           # TFLint AWS ruleset configuration
+├── .checkov.yml                          # Checkov scan ignore list
+├── .terraform-docs.yml                   # Config for terraform documentation during workflow
+├── variables.tf                          # Global variables
+├── outputs.tf                            # Final consolidated endpoint outputs
+├── README.template.md                    # Project documentation
+└── terraform.tfstate                     # Local state file tracking resources
 </pre>
 <div align="right"><a href="#readme-top">↑ Back to Top</a></div>
+
+<h2 id="technical">Technical Reference</h2>
+This section is automatically updated with the latest infrastructure details.
+<details>
+<summary><b>Detailed Infrastructure Specifications</b></summary>
+
+<!-- BEGIN_TF_DOCS -->
+
+{{ .Content }}
+
+<!-- END_TF_DOCS -->
+</details>
+<div align="right"><a href="#readme-top">↑ Back to Top</a></div>
+
 <h2 id="getting-started">Getting Started</h2>
 <h3>Prerequisites</h3>
 <ul>
@@ -107,10 +176,9 @@
    <li>Terraform Local CLI</li>
 </ol>
 
-<h4>Terraform Cloud Configuration</h4>
-<p>If you choose Terraform Cloud, please follow the steps below:</p>
+<h3>Terraform Cloud State Management</h3>
 <ol>
-   <li>Create a new <strong>Workspace</strong> in Terraform Cloud.</li>
+   <li>Create a new <strong>Workspace</strong> with github version control workflow in Terraform Cloud.</li>
    <li>In the Variables tab, add the following <strong>Terraform Variables:</strong>
    </li>
    <li>
@@ -120,49 +188,131 @@
       <li><code>AWS_SECRET_ACCESS_KEY</code></li>
    </ul>
    </li>
+    <li>
+      Run the command ni Terraform CLI:
+      <pre>terraform login</pre>
+    </li>
+    <li>Create a token and follow the steps in browser to complete the Terraform Cloud Connection.</li>
+    <li>
+      Add the <code>backend</code> block in <code>terraform</code> code block</code>:
+    <pre>backend "remote" {
+  hostname     = "app.terraform.io"
+  organization = &lt;your-organization-name&gt;
+  workspaces {
+    name = &lt;your-workspace-name&gt;
+  }
+}</pre>
+   </li>
+    <li>
+      Run the command in Terraform CLI to migrate the state into Terraform Cloud:
+      <pre>terraform init -migrate-state</pre>
+    </li>
 </ol>
 
-<h4>Terraform Local CLI Configuration</h4>
-<p>If you choose Terraform Local CLI, please follow the steps below:</p>
-<ol>
-   <li>
-      Comment the <code>backend</code> block in <code>terraform.tf</code>:
-      <pre># backend "remote" {
-#   hostname     = "app.terraform.io"
-#   organization = "&lt;your-terraform-organization-name&gt;"
-#   workspaces {
-#     name = "&lt;your-terraform-workspace-name&gt;"
-#   }
-# }</pre>
-   </li>
-   <li>
-    Add the following <strong>Environment Variables</strong> (AWS Credentials):
-    <pre>git bash command:
-export AWS_ACCESS_KEY_ID=&lt;your-aws-access-key-id&gt;
-export AWS_SECRET_ACCESS_KEY=&lt;your-aws-secret-access-key&gt;
-</ol>
 <h3>Installation & Deployment</h3>
 <ol>
-   <li>
-        <strong>Clone the Repository</strong>
+    <li>
+        <strong>Clone the Repository:</strong>
+        <pre>git clone https://github.com/{{GITHUB_USER}}/{{REPO_NAME}}.git</pre>
     </li>
     <li>
-        <strong>Provision Infrastructure:</strong>
-        <ul>
-          <li>
-            <strong>Terraform Cloud</strong> → <strong>Initialize & Apply:</strong> Push your code to GitHub. Terraform Cloud will automatically detect the change, run a <code>plan</code>, and wait for your approval.
-          </li>
-          <li>
-            <strong>Terraform CLI</strong> → <strong>Initialize & Apply:</strong> Run <code>terraform init</code> → <code>terraform plan</code> → <code>terraform apply</code>, and wait for your approval.
-          </li>
-        </ul>
+        <strong>Provision Infrastructure:</strong><br>
+        <strong>Terraform Cloud</strong> → <strong>Initialize & Apply:</strong> Push your code to GitHub. Terraform Cloud will automatically detect the change, run a <code>plan</code>, and wait for your approval.
     </li>
-   <li>
-      <strong>Note:</strong> Upon the first deployment, S3 may take a moment for DNS propagation. If the initial upload fails, wait 30 seconds and re-run <code>terraform apply</code>.<br>
-      <img src="assets/event-announcement-system-page.png" alt="event-announcement-system-page" width="800"/>
-   </li>
+    <li>
+        <strong>Observe workflow:</strong><br>
+        <strong>GitHub (GitOps)</strong> → <strong>Github actions:</strong> Observe the process/workflow of CI/CD in the actions tab in GitHub.
+    </li>
 </ol>
 <div align="right"><a href="#readme-top">↑ Back to Top</a></div>
+
+<h2 id="gitops">GitOps & CI/CD Workflow</h2>
+<p>This project uses a fully automated GitOps pipeline to ensure code quality and deployment reliability. The <strong>Pre-commit</strong> framework implements a "Shift-Left" strategy, ensuring that code is formatted, documented, and secure before it ever leaves your machine.</p>
+
+<h3>Workflow</h3>
+<ol>
+  <li>
+    <strong>Branch Protection Rulesets</strong><br>
+    To ensure high code quality and prevent unauthorized changes to the production environment, the <code>main</code> branch is governed by a <strong>GitHub Branch Ruleset</strong>.
+    <ul>
+      <li><strong>Pull Request Mandatory:</strong> No code can be pushed directly to <code>main</code>. All changes must originate from a feature branch and be merged via a Pull Request.</li>
+      <li><strong>Required Status Checks:</strong> The <code>Infrastructure CI</code> (Terraform Plan & Static Analysis) must pass successfully before a merge is permitted.</li>
+      <li><strong>Bypass Authority:</strong> The dedicated GitHub App is added to the Bypass List with "Always allow" permissions. This allows the bot to push documentation updates directly to <code>main</code> without being blocked by PR requirements.</li>
+    </ul>
+  </li>
+  <li>
+    <strong>Pre-commit</strong>
+    <ul>
+      <li><strong>Tool:</strong> Executes <code>terraform fmt</code>, <code>terraform validate</code>, <code>TFLint</code>, <code>terraform_docs</code> and <code>checkov</code> to ensure the code is clean.</li>
+      <li><strong>Trigger:</strong> Runs on every <strong>git commit</strong>.</li>
+      <li>
+        <strong>Outcome:</strong> If any check fails, the commit is blocked. You fix the error, re-add the file, and commit again.
+      </li>
+    </ul>
+  </li>
+  <li>
+    <strong>Continuous Integration (PR)</strong>
+    <ul>
+      <li><strong>Tool:</strong> Executes <code>terraform fmt -check</code>, <code>terraform validate</code> and <code>checkov</code>, then do <code>plan</code> and cost estimation and print it on PR.</li>
+      <li><strong>Trigger:</strong> Runs on every <strong>Pull Request</strong>.</li>
+      <li>
+        <strong>Outcome:</strong> This acts as the "Gatekeeper" before code is merged to <code>main</code>.
+      </li>
+    </ul>
+  </li>
+  <li>
+    <strong>Continuous Delivery (Deployment)</strong>
+    <ul>
+      <li><strong>Tool:</strong> Terraform Cloud + GitHub Actions OIDC.</li>
+      <li><strong>Trigger:</strong> Merges to the <code>main</code> branch.</li>
+      <li>
+        <strong>Outcome:</strong> The pipeline verifies the infrastructure state and runs a post-deployment health check with(<code>health-check.sh</code> & <code>smoke-test-website.sh</code>).
+      </li>
+    </ul>
+  </li>
+  <li>
+    <strong>Dynamically update readme documentation</strong>
+    <ul>
+      <li><strong>Tool:</strong> <code>terraform_docs</code> + GitHub Actions.</li>
+      <li><strong>Trigger:</strong> Merges to the <code>main</code> branch.</li>
+      <li>
+        <strong>Outcome:</strong> The pipeline verifies the infrastructure state from Terraform Cloud, retrieve outputs from Terraform Cloud and update the readme documentation file dynamically.
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<h3>Prerequisites for GitOps</h3>
+<ul>
+  <li><strong>Repository Secret <code>TF_API_TOKEN</code>:</strong> Required for GitHub to communicate with Terraform Cloud.</li>
+  <li><strong>Trigger:</strong> A GitHub Actions OIDC role (<code>GitHubActionRole</code>) allows the runner to verify AWS resources without long-lived keys.</li>
+  <li>
+      <strong>Automated Documentation via GitHub App:</strong> Instead of using a Personal Access Token (PAT) or the default <code>GITHUB_TOKEN</code>, this project uses a custom <strong>GitHub App</strong> for automated tasks.<br>
+      <table>
+         <thead>
+            <tr>
+               <td>Secret</td>
+               <td>Description</td>
+               <td>Source</td>
+            </tr>
+         </thead>
+         <tbody>
+            <tr>
+               <td><code>BOT_APP_ID</code></td>
+               <td>The unique numerical ID assigned to your GitHub App.</td>
+               <td>App Settings > General</td>
+            </tr>
+            <tr>
+               <td><code>BOT_PRIVATE_KEY</code></td>
+               <td>The full content of the generated <code>.pem</code> private key file.</td>
+               <td>App Settings > Private keys</td>
+            </tr>
+         </tbody>
+      </table>
+   </li>
+</ul>
+<div align="right"><a href="#readme-top">↑ Back to Top</a></div>
+
 <h2 id="usage">Usage & Testing</h2>
 <ol>
    <li>
@@ -185,6 +335,7 @@ export AWS_SECRET_ACCESS_KEY=&lt;your-aws-secret-access-key&gt;
    </li>
 </ol>
 <div align="right"><a href="#readme-top">↑ Back to Top</a></div>
+
 <h2 id="roadmap">Roadmap</h2>
 <ul>
    <li>[x] <strong>CORS Integration:</strong> Full API Gateway preflight support for cross-origin requests.</li>
@@ -222,23 +373,88 @@ export AWS_SECRET_ACCESS_KEY=&lt;your-aws-secret-access-key&gt;
    </tbody>
 </table>
 <div align="right"><a href="#readme-top">↑ Back to Top</a></div>
-<h2 id="cost-optimization">Cost Optimization</h2>
+
+<h2 id="well-architected">AWS Well-Architected Framework Alignment</h2>
+<p>This project is designed with the six pillars of the AWS Well-Architected Framework in mind to ensure a secure, high-performing, resilient, and efficient infrastructure.</p>
+<ol>
+  <li>
+    <strong>Operational Excellence</strong>
+    <ul>
+      <li><strong>Infrastructure as Code (IaC):</strong> The entire environment is modularized via Terraform, enabling version control, repeatability, and standardized resource provisioning across environments.</li>
+      <li><strong>Automated Deployment & Testing:</strong> Integration of a CI/CD pipeline (GitHub Actions) with custom bash scripts for post-deployment health checks ensures functional integrity after every change.</li>
+      <li><strong>Observability:</strong> CloudWatch Log Groups are explicitly provisioned for both API Gateway and Lambda functions, with automated retention policies to maintain visibility while managing log volume.</li>
+    </ul>
+  </li>
+  <li>
+    <strong>Security</strong>
+    <ul>
+      <li><strong>Granular Least Privilege:</strong> IAM roles are strictly scoped by removing wildcards. Specific resource ARNs for SNS topics and S3 buckets are injected into policies to minimize the blast radius.</li>
+      <li><strong>Separation of Concerns:</strong> Distinct IAM roles are utilized for API Gateway logging and Lambda execution, preventing cross-service privilege escalation.</li>
+      <li><strong>Modern Runtimes:</strong> Standardized on Node.js 20.x to ensure the latest security patches and AWS SDK v3 performance optimizations are utilized.</li>
+    </ul>
+  </li>
+  <li>
+    <strong>Reliability</strong>
+    <ul>
+      <li><strong>Serverless Resiliency:</strong> By utilizing AWS Lambda and Amazon SNS, the system leverages managed high availability across multiple Availability Zones without manual intervention.</li>
+      <li><strong>Dependency Management:</strong> Terraform <code>depends_on</code> blocks and <code>etag</code> tracking ensure that frontend assets and backend configurations are deployed in the correct logical order, preventing race conditions.</li>
+    </ul>
+  </li>
+  <li>
+    <strong>Performance Efficiency</strong>
+    <ul>
+      <li><strong>Event-Driven Architecture:</strong> The system uses asynchronous SNS fan-out patterns to process notifications, allowing the API to remain responsive while backend tasks are handled in parallel.</li>
+      <li><strong>Optimized Artifacts:</strong> Lambda deployment packages are minimized using the <code>archive_file</code> data source, reducing cold start times and deployment latency.</li>
+      <li><strong>Real-time State Management:</strong> Direct S3 integration for the frontend <code>events.json</code> provides a low-latency, "database-less" experience for small-scale event tracking.</li>
+    </ul>
+  </li>
+  <li>
+    <strong>Cost Optimization</strong>
+    <ul>
+      <li><strong>Zero-Idle Cost:</strong> Leveraging a 100% serverless stack ensures that expenses are only incurred during actual request execution, making it perfect for the AWS Free Tier.</li>
+      <li><strong>Resource Right-Sizing:</strong> Lambda functions are configured with a minimum memory footprint (128MB) and strict timeouts to prevent runaway costs from inefficient code or infinite loops.</li>
+      <li><strong>Automated Cleanup:</strong> CloudWatch logs are set to a 1-day retention period in development to eliminate storage costs for ephemeral debugging data.</li>
+    </ul>
+  </li>
+  <li>
+    <strong>Sustainability</strong>
+    <ul>
+      <li><strong>Maximize Utilization:</strong> Managed services like Lambda and S3 share underlying hardware across millions of users, ensuring that energy consumption is scaled precisely to demand.</li>
+      <li><strong>Lean Resource Footprint:</strong> By opting for a serverless approach over persistent EC2 instances, the project reduces the carbon footprint by eliminating "ghost" power consumption from idle servers.</li>
+    </ul>
+  </li>
+</ol>
+<div align="right"><a href="#readme-top">↑ Back to Top</a></div>
+
+<h2 id="acknowledgements">Acknowledgements</h2>
+<p>
+  Special thanks to <strong>Tech with Lucy</strong> for the architectural inspiration and excellent AWS tutorials that helped shape this pipeline.
+</p>
 <ul>
-   <li><strong>100% Free Tier Eligible:</strong> Uses S3, Lambda, and SNS—all of which fall under the AWS Free Tier for low-volume usage.</li>
-   <li><strong>Log Retention:</strong> CloudWatch logs are set to expire after 1 day to prevent storage costs from accumulating.</li>
-   <li><strong>Tagging Strategy:</strong> Implemented <code>locals { common_tags }</code> to label all resources, making it easy to track costs in the AWS Billing Dashboard.</li>
+  <li>
+    See her youtube channel here: <a href="https://www.youtube.com/@TechwithLucy" target="_blank">Tech With Lucy</a>
+  </li>
+  <li>
+    Watch her video here: <a href="https://www.youtube.com/watch?v=0hJxcBdRlYw" target="_blank">5 Intermediate AWS Cloud Projects To Get You Hired (2025)</a>
+  </li>
 </ul>
 <div align="right"><a href="#readme-top">↑ Back to Top</a></div>
 
-[contributors-shield]: https://img.shields.io/github/contributors/ShenLoong99/aws-terraform-event-announcement-system.svg?style=for-the-badge
-[contributors-url]: https://github.com/ShenLoong99/aws-terraform-event-announcement-system/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/ShenLoong99/aws-terraform-event-announcement-system.svg?style=for-the-badge
-[forks-url]: https://github.com/ShenLoong99/aws-terraform-event-announcement-system/network/members
-[stars-shield]: https://img.shields.io/github/stars/ShenLoong99/aws-terraform-event-announcement-system.svg?style=for-the-badge
-[stars-url]: https://github.com/ShenLoong99/aws-terraform-event-announcement-system/stargazers
-[issues-shield]: https://img.shields.io/github/issues/ShenLoong99/aws-terraform-event-announcement-system.svg?style=for-the-badge
-[issues-url]: https://github.com/ShenLoong99/aws-terraform-event-announcement-system/issues
-[license-shield]: https://img.shields.io/github/license/ShenLoong99/aws-terraform-event-announcement-system.svg?style=for-the-badge
-[license-url]: https://github.com/ShenLoong99/aws-terraform-event-announcement-system/blob/master/LICENSE.txt
+[contributors-shield]: https://img.shields.io/github/contributors/{{GITHUB_USER}}/{{REPO_NAME}}.svg?style=for-the-badge
+[contributors-url]: {{REPO_URL}}/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/{{GITHUB_USER}}/{{REPO_NAME}}.svg?style=for-the-badge
+[forks-url]: {{REPO_URL}}/network/members
+[stars-shield]: https://img.shields.io/github/stars/{{GITHUB_USER}}/{{REPO_NAME}}.svg?style=for-the-badge
+[stars-url]: {{REPO_URL}}/stargazers
+[issues-shield]: https://img.shields.io/github/issues/{{GITHUB_USER}}/{{REPO_NAME}}.svg?style=for-the-badge
+[issues-url]: {{REPO_URL}}/issues
+[license-shield]: https://img.shields.io/github/license/{{GITHUB_USER}}/{{REPO_NAME}}.svg?style=for-the-badge
+[license-url]: {{REPO_URL}}/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/si-kai-tan
+[linkedin-url]: {{LINKEDIN_URL}}
+[ci-shield]: https://github.com/{{GITHUB_USER}}/{{REPO_NAME}}/actions/workflows/ci.yml/badge.svg
+[ci-url]: https://github.com/{{GITHUB_USER}}/{{REPO_NAME}}/actions/workflows/ci.yml
+[cd-shield]: https://github.com/{{GITHUB_USER}}/{{REPO_NAME}}/actions/workflows/cd.yml/badge.svg
+[cd-url]: https://github.com/{{GITHUB_USER}}/{{REPO_NAME}}/actions/workflows/cd.yml
+[docs-shield]: https://github.com/{{GITHUB_USER}}/{{REPO_NAME}}/actions/workflows/documentation.yml/badge.svg
+[docs-url]: https://github.com/{{GITHUB_USER}}/{{REPO_NAME}}/actions/workflows/documentation.yml
