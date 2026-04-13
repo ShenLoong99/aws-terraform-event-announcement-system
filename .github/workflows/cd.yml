@@ -90,10 +90,11 @@ jobs:
         run: terraform init
 
       - name: Extract Terraform Outputs
+        id: vars
         run: |
-          echo "AWS_REGION=$(terraform output -raw AWS_REGION)" >> $GITHUB_OUTPUT
-          echo "website_url=$(terraform output -raw website_url)" >> $GITHUB_OUTPUT
-          echo "api_url=$(terraform output -raw api_stage_url)" >> $GITHUB_OUTPUT
+          echo "AWS_REGION=$(terraform output -raw aws_region)" >> $GITHUB_OUTPUT
+          echo "WEBSITE_URL=$(terraform output -raw website_url)" >> $GITHUB_OUTPUT
+          echo "API_URL=$(terraform output -raw api_stage_url)" >> $GITHUB_OUTPUT
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -103,8 +104,8 @@ jobs:
 
       - name: Run Integration Tests
         env:
-          WEBSITE_URL: ${{ env.website_url }}
-          API_URL: ${{ env.api_url }}
+          WEBSITE_URL: ${{ env.WEBSITE_URL }}
+          API_URL: ${{ env.API_URL }}
         run: |
           chmod +x ./scripts/post-deploy-test.sh
           ./scripts/post-deploy-test.sh

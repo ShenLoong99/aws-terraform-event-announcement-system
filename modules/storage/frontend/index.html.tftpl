@@ -29,7 +29,7 @@
             const res = await fetch(`$${API_BASE}/subscribe`, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
                     'x-api-key': '${api_key_val}'
                 },
                 body: JSON.stringify({ email })
