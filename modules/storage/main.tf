@@ -142,7 +142,7 @@ resource "aws_s3_object" "data" {
   ]
 }
 
-# Output the website URL for easy access
+# IAM Policy for Lambda to access S3
 resource "aws_iam_role_policy" "lambda_permissions" {
   name = "event_project_policy"
   role = var.lambda_role_id
@@ -153,7 +153,7 @@ resource "aws_iam_role_policy" "lambda_permissions" {
       {
         Action   = ["s3:GetObject", "s3:PutObject"],
         Effect   = "Allow",
-        Resource = "${aws_s3_bucket.website.arn}/*"
+        Resource = "${aws_s3_bucket.website.arn}/events.json"
       }
     ]
   })

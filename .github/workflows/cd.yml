@@ -92,9 +92,9 @@ jobs:
       - name: Extract Terraform Outputs
         id: vars
         run: |
-          echo "AWS_REGION=$(terraform output -raw aws_region)" >> $GITHUB_OUTPUT
-          echo "WEBSITE_URL=$(terraform output -raw website_url)" >> $GITHUB_OUTPUT
-          echo "API_URL=$(terraform output -raw api_stage_url)" >> $GITHUB_OUTPUT
+          echo "AWS_REGION=$(terraform output -raw aws_region)" >> $GITHUB_ENV
+          echo "WEBSITE_URL=$(terraform output -raw website_url)" >> $GITHUB_ENV
+          echo "API_URL=$(terraform output -raw api_stage_url)" >> $GITHUB_ENV
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
