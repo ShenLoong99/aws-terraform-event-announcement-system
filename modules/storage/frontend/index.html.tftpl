@@ -43,7 +43,10 @@
             const date = document.getElementById('eventDate').value;
             const res = await fetch(`$${API_BASE}/create-event`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-api-key': '${api_key_val}'
+                },
                 body: JSON.stringify({ title, date })
             });
             const data = await res.json();

@@ -91,6 +91,7 @@ jobs:
 
       - name: Extract Terraform Outputs
         run: |
+          echo "AWS_REGION=$(terraform output -raw AWS_REGION)" >> $GITHUB_OUTPUT
           echo "website_url=$(terraform output -raw website_url)" >> $GITHUB_OUTPUT
           echo "api_url=$(terraform output -raw api_stage_url)" >> $GITHUB_OUTPUT
 
