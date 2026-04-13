@@ -143,7 +143,7 @@ resource "aws_s3_object" "data" {
 }
 
 # IAM Policy for Lambda to access S3
-resource "aws_iam_role_policy" "lambda_permissions" {
+resource "aws_iam_role_policy" "s3_access_policy" {
   name = "event_project_policy"
   role = var.lambda_role_id
 
