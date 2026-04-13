@@ -237,7 +237,7 @@ resource "aws_api_gateway_stage" "prod" {
 }
 
 # IAM Role Policy for API Gateway to write logs to CloudWatch
-resource "aws_iam_role_policy" "lambda_permissions" {
+resource "aws_iam_role_policy" "api_logs_policy" {
   name = "event_project_policy"
   role = var.lambda_role_id
 
