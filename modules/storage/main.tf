@@ -53,8 +53,8 @@ resource "aws_s3_bucket_website_configuration" "hosting" {
 }
 
 # S3 Bucket Public Access Configuration
-# checkov:skip=CKV_AWS_56: Public access is required for this static site
-# checkov:skip=CKV_AWS_54: Public access is required for this static site
+# checkov:skip=CKV_AWS_56:Public access is required for this static site
+# checkov:skip=CKV_AWS_54:Public access is required for this static site
 resource "aws_s3_bucket_public_access_block" "public" {
   bucket = aws_s3_bucket.website.id
 
@@ -66,7 +66,7 @@ resource "aws_s3_bucket_public_access_block" "public" {
 }
 
 # S3 Bucket Policy
-# checkov:skip=CKV_AWS_70: Public access is required for this static site
+# checkov:skip=CKV_AWS_70:Public access is required for this static site
 resource "aws_s3_bucket_policy" "allow_public" {
   bucket = aws_s3_bucket.website.id
 
