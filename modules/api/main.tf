@@ -46,10 +46,12 @@ resource "aws_lambda_permission" "apigw_sub" {
 
 # OPTIONS method for CORS preflight
 resource "aws_api_gateway_method" "sub_options" {
-  rest_api_id   = aws_api_gateway_rest_api.event_api.id
-  resource_id   = aws_api_gateway_resource.subscribe.id
-  http_method   = "OPTIONS"
-  authorization = "NONE"
+  rest_api_id          = aws_api_gateway_rest_api.event_api.id
+  resource_id          = aws_api_gateway_resource.subscribe.id
+  http_method          = "OPTIONS"
+  authorization        = "NONE"
+  api_key_required     = false
+  request_validator_id = aws_api_gateway_request_validator.event_api_validator.id
 }
 
 # Define the Method Response
@@ -134,10 +136,12 @@ resource "aws_lambda_permission" "apigw_event" {
 
 # OPTIONS method for CORS preflight on Create Event
 resource "aws_api_gateway_method" "event_options" {
-  rest_api_id   = aws_api_gateway_rest_api.event_api.id
-  resource_id   = aws_api_gateway_resource.create_event.id
-  http_method   = "OPTIONS"
-  authorization = "NONE"
+  rest_api_id          = aws_api_gateway_rest_api.event_api.id
+  resource_id          = aws_api_gateway_resource.create_event.id
+  http_method          = "OPTIONS"
+  authorization        = "NONE"
+  api_key_required     = false
+  request_validator_id = aws_api_gateway_request_validator.event_api_validator.id
 }
 
 # Define the Method Response for OPTIONS
